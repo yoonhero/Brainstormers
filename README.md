@@ -13,7 +13,8 @@
 -   Brain Signal Analysis
 
     -   [ ] 합성곱 신경망을 이용한 뇌파 해석 기법
-    -
+    -   [ ] 연세대학교 뇌 관련 PPT
+    -   ... 더 찾아봐야겠다.
 
 -   Generative Model
 
