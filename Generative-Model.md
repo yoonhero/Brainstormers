@@ -1,5 +1,12 @@
 # 생성 모델에 대한 논문 정리
 
+## Generative Model
+
+-   A statistical model of the joint probability distribution
+-   An architecture to generate new data instances
+
+생성 모델은 실존하지 않지만 있을 법한 이미지를 훈련 데이터셋의 확률 분포로 만들어낸다.
+
 ## Generative Adversarial Nets
 
 GAN은 Generative Adversial Network의 약자로 Discriminator와 Generator 신경망이 서로 적대적으로 학습시키며 실제 데이터와 비슷한 데이터를 생성 해내는 모델이다. 이렇게 생성된 데이터에는 정해진 label값이 없기 때문에 비지도 학습 기반 생성모델로 분류된다.
@@ -35,57 +42,24 @@ G는 데이터를 생성하여 자신이 생성한 데이터를 최대한 실제
 
 ![gan_formula](https://t1.daumcdn.net/cfile/tistory/995E00345AAE7B6401)
 
-위 수식을 해석하면 D가 실제 데이터에 대해서
+### 한계점
 
-### Generative Model
+GAN은 기술적으로 고해상도 이미지를 생성할 수 없다는 점과 학습이 불안정하다는 점을 한계점으로 가지고 있다. 이러한 한계점은 후속 GAN 모델이 개발되면서 해결되었다. (추후 Diffusion Model의 승리 과정 학습)
 
--   A statistical model of the joint probability distribution
--   An architecture to generate new data instances
+-   악용가능성, 지식 재산권 이슈 등
 
-생성 모델은 실존하지 않지만 있을 법한 이미지를 훈련 데이터셋의 확률 분포로 만들어낸다.
+### 더 공부할 것
 
-### 확률분포
+DCGAN, CycleGAN 등 추가 공부가 필요하다....
 
-확률 변수가 특정한 값을 가질 확률을 나타내는 함수를 의미한다.
+### IS (Inception Score)
 
-### 이산확률분포
+Inception Score는 GAN의 평가에 널리 쓰이는 지표이다. 이 지표는 클래스 label과 관련하여 특징적인 속성들을 잡아내기 위해 Pre-trained 신경망을 사용한다.
 
-확률변수 X의 개수를 정확히 셀 수 있을 때 이산확률분포라고 말한다.
+샘플의 조건부 분포와 모든 샘플에서 얻은 주변분포 사이의 평균적인 KL 발산 정도를 측정하는 것이다. 이 값이 높을수록 좋은 성능을 낸다고 해석할 수 있다.
 
-### 연속확률분포
+![is](https://github.com/Pseudo-Lab/Tutorial-Book/blob/master/book/pics/GAN-ch1img08.png?raw=true)
 
-확률변수 X의 개수를 정확히 셀 수 없을 때 연속 확률분포라고 말한다.
+### FID (Frechet Inception Distance)
 
-ex) 정규분포
-
-<strong>정규 분포(Gaussian Distribution)</strong>
-
-연속 확률 분포의 하나이다. 정규분포는 수집된 자료의 분포를 근사하는 데에 자주 사용된다. 이것은 중심극한정리에 의하여 독립적인 확률변수들의 평균은 정규분포에 가까워지는 성질이 있기 때문이다.
-
-사람의 얼굴에도 통계적인 평균치가 존재할 수 있다. 모델은 이를 수치적으로 표현할 수 있게 된다. 이때의 확률 분포는 이미지에서의 다양한 특징들이 각각의 확률 변수가 되는 분포를 의미한다.
-
-<strong>다변수 확률 분포</strong>
-
-![multivariable](https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Multivariate_Gaussian.png/330px-Multivariate_Gaussian.png)
-
-<strong>가우시안 노이즈</strong>
-
-![gaussian](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FCbW0g%2FbtqN005Ge5Y%2FkUVZpwTKpdhOETVC94CAkK%2Fimg.png)
-
-이런 식으로 사진이 지지직 거리는 느낌의 잡음을 가우시안 노이즈라고 한다. 이름이 가우시안 노이즈인 이유는, 이름처럼 가우스 함수에 따른 분포를 따르고 있기 때문이다.
-
-```python
-def make_noise(std, gray):
-    height, width = gray.shape
-    img_noise = np.zeros((height, width), dtype=np.float)
-    for i in range(height):
-        for a in range(width):
-            make_noise = np.random.normal()  # 랜덤함수를 이용하여 노이즈 적용
-            set_noise = std * make_noise
-            img_noise[i][a] = gray[i][a] + set_noise
-    return img_noise
-```
-
-### KL Divergence
-
-두 확률분포가 얼마나 다른지 그 차이를 측정하기 위해 사용되는 식이다. KL Divergence는 비교하려는 확률질량함수의 정보량에서 기준이 되는 확률질량함수의 정보량을 뺀값에 기준이 되는 확률질량함수의 확률분포에 대한 기대값을 씌워준 것을 의미한다.
+FID는 생성되는 이미지의 퀄리티 일관성을 유지하기 위해 이용되는 지표이다. 실제 데이터의 분포를 활용하지 않는 단점을 보완하여 실제 데이터와 생성된 데이터에서 얻은 feature의 평균과 공분산을 비교하는 방식이다. FID가 낮을수록 이미지의 퀄리티가 더 좋아지는데 이는 실제 이미지와 생성된 이미지의 유사도가 높아지는 것을 의미한다. 즉 쉽게 말해 FID는 생성된 샘플들의 통계와 실제 샘플들의 통계를 비교하는 것이다.

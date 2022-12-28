@@ -127,6 +127,42 @@ def run_epoch(generator, discriminator, _optimizer_g, _optimizer_d):
             _optimizer_g.step()
 
 
+def run_epoch_with_lossfn(generator, discriminator, _optimizer_g, _optimizer_d):
+    for epoch, (batch_image, batch_label) in enumerate(train_data_loader):
+        batch_image, batch_label = batch_image.to(
+            device), batch_label.to(device)
+
+        target_real = torch.ones(batch_size, 1)
+        target_fake = torch.zeros(batch_size, 1)
+
+        if (epoch+1) % 5 == 0:
+            discriminator.train()
+            _optimizer_d.zero_grad()
+
+            p_real = discriminator(batch_image.view(-1, 28*28))
+            p_fake = discriminator(generator(sample_z(batch_size, d_noise)))
+
+            D_loss_fake = criterion(p_fake, target_fake)
+            D_loss_real = criterion(p_real, target_real)
+
+            D_loss = D_loss_real + D_loss_fake
+
+            D_loss.backward()
+            _optimizer_d.step()
+
+        else:
+            generator.train()
+            _optimizer_g.zero_grad()
+
+            p_fake = discriminator(generator(sample_z(batch_size, d_noise)))
+
+            # 생성자 입장에서 본다면 최대한 판별자가 진짜라고 믿게 훈련해야하므로 D의 출력값이 1에서 멀수록 Loss가 높아진다.
+            G_loss = criterion(p_fake, target_real)
+
+            G_loss.backward()
+            _optimizer_g.step()
+
+
 def evaluate_model(generator, discriminator):
     p_real, p_fake = 0., 0.
 
@@ -179,15 +215,15 @@ if __name__ == "__main__":
     p_real_trace = []
     p_fake_trace = []
 
-    for epoch in range(200):
+    for epoch in range(50):
         run_epoch(G_model, D_model, optimizer_g, optimizer_d)
         p_real, p_fake = evaluate_model(G_model, D_model)
 
         p_real_trace.append(p_real)
         p_fake_trace.append(p_fake)
 
+        print(f"[Epoch {epoch}/200] p_real: {p_real:3} p_g {p_fake:3}")
         if ((epoch+1) % 50 == 0):
-            print(f"[Epoch {epoch}/200] p_real: {p_real:3} p_g {p_fake:3}")
             imshow_grid(G_model(sample_z(16)).view(-1, 1, 28, 28))
 
     plt.plot(p_fake_trace, label='D(x_generated)')
