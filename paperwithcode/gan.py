@@ -32,8 +32,8 @@ device = torch.device("cuda" if is_cuda else "cpu")
 
 standardizator = transforms.Compose([
     transforms.ToTensor(),
-    transforms.Normalize(mean=(0.5, 0.5, 0.5),   # 3 for RGB channels이나 실제론 gray scale
-                         std=(0.5, 0.5, 0.5))])  # 3 for RGB channels이나 실제론 gray scale
+    transforms.Normalize(mean=(0.5),   # 3 for RGB channels이나 실제론 gray scale
+                         std=(0.5))])  # 3 for RGB channels이나 실제론 gray scale
 
 
 train_data = dsets.MNIST(root="data/", train=True,
@@ -49,6 +49,7 @@ test_data_loader = DataLoader(test_data, batch_size, shuffle=True)
 # Hyper Parameters
 d_noise = 100
 d_hidden = 256
+k = 4
 
 
 def sample_z(batch_size=1, d_noise=100):
@@ -98,31 +99,32 @@ def run_epoch(generator, discriminator, _optimizer_g, _optimizer_d):
     generator.train()
     discriminator.train()
 
-    for img_batch, label_batch in train_data_loader:
+    for epoch, (img_batch, label_batch) in enumerate(train_data_loader):
         img_batch, label_batch = img_batch.to(device), label_batch.to(device)
 
-        # maximize V(discriminator,generator) = optimize discriminator (setting k to be 1)  #
-        _optimizer_d.zero_grad()
+        if (epoch+1) % 5 != 0:
+            # maximize V(discriminator,generator) = optimize discriminator (setting k to be 1)  #
+            _optimizer_d.zero_grad()
 
-        p_real = discriminator(img_batch.view(-1, 28*28))
-        p_fake = discriminator(generator(sample_z(batch_size, d_noise)))
+            p_real = discriminator(img_batch.view(-1, 28*28))
+            p_fake = discriminator(generator(sample_z(batch_size, d_noise)))
 
-        loss_real = -1*torch.log(p_real)
-        loss_fake = -1*torch.log(1.-p_fake)
-        loss_d = (loss_real+loss_fake).mean()
+            loss_real = -1*torch.log(p_real)
+            loss_fake = -1*torch.log(1.-p_fake)
+            loss_d = (loss_real+loss_fake).mean()
 
-        loss_d.backward()
-        _optimizer_d.step()
+            loss_d.backward()
+            _optimizer_d.step()
+        else:
+            # minimize V(discriminator, generator) #
+            _optimizer_g.zero_grad()
 
-        # minimize V(discriminator, generator) #
-        _optimizer_g.zero_grad()
+            p_fake = discriminator(generator(sample_z(batch_size, d_noise)))
 
-        p_fake = discriminator(generator(sample_z(batch_size, d_noise)))
+            loss_g = -1*torch.log(p_fake).mean()
 
-        loss_g = -1*torch.log(p_fake).mean()
-
-        loss_g.backward()
-        _optimizer_g.step()
+            loss_g.backward()
+            _optimizer_g.step()
 
 
 def evaluate_model(generator, discriminator):
@@ -136,7 +138,7 @@ def evaluate_model(generator, discriminator):
                                                                       )
 
         with torch.autograd.no_grad():
-            p_real += (torch.sum(discriminator(img_batch.view(-1, 28, 28))).item()) / \
+            p_real += (torch.sum(discriminator(img_batch.view(-1, 28*28))).item()) / \
                 10000.
 
             p_fake += (torch.sum(discriminator(generator(sample_z(batch_size, d_noise)))).item()) / \
@@ -187,3 +189,11 @@ if __name__ == "__main__":
         if ((epoch+1) % 50 == 0):
             print(f"[Epoch {epoch}/200] p_real: {p_real:3} p_g {p_fake:3}")
             imshow_grid(G_model(sample_z(16)).view(-1, 1, 28, 28))
+
+    plt.plot(p_fake_trace, label='D(x_generated)')
+    plt.plot(p_real_trace, label='D(x_real)')
+    plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+    plt.show()
+
+    torch.save(G_model.state_dict(), "gan.pt")
