@@ -52,6 +52,9 @@ GAN은 기술적으로 고해상도 이미지를 생성할 수 없다는 점과 
 
 DCGAN, CycleGAN 등 추가 공부가 필요하다....
 
+-   DCGAN CNN 레이어로 고화질의 이미지를 생성할 수 있다.
+-   CGAN 이미지를 다른 이미지로 변환할 수 있다.
+
 ### IS (Inception Score)
 
 Inception Score는 GAN의 평가에 널리 쓰이는 지표이다. 이 지표는 클래스 label과 관련하여 특징적인 속성들을 잡아내기 위해 Pre-trained 신경망을 사용한다.

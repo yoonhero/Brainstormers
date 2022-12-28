@@ -161,3 +161,4 @@ cython_debug/
 
 paperwithcode/data
 paperwithcode/data/
+paperwithcode/gan.pt

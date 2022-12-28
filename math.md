@@ -45,3 +45,15 @@ def make_noise(std, gray):
             img_noise[i][a] = gray[i][a] + set_noise
     return img_noise
 ```
+
+### 기댓값
+
+기댓값은 모든 사건에 대해 확률을 곱하면서 더하여 계산할 수 있다.
+
+-   이산확률변수의 기댓값
+
+![m1](./docs/math-1.png)
+
+-   연속확률변수의 기댓값
+
+![m2](./docs/math-2.png)
