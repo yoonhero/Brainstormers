@@ -66,3 +66,15 @@ Inception Score는 GAN의 평가에 널리 쓰이는 지표이다. 이 지표는
 ### FID (Frechet Inception Distance)
 
 FID는 생성되는 이미지의 퀄리티 일관성을 유지하기 위해 이용되는 지표이다. 실제 데이터의 분포를 활용하지 않는 단점을 보완하여 실제 데이터와 생성된 데이터에서 얻은 feature의 평균과 공분산을 비교하는 방식이다. FID가 낮을수록 이미지의 퀄리티가 더 좋아지는데 이는 실제 이미지와 생성된 이미지의 유사도가 높아지는 것을 의미한다. 즉 쉽게 말해 FID는 생성된 샘플들의 통계와 실제 샘플들의 통계를 비교하는 것이다.
+
+## Conditional GAN
+
+Conditional GAN은 기존의 GAN은 훈련시킨 데이터의 분포와 유사한 이미지를 잘 생성할 수 있지만 어떤 이미지를 생성하라고 통제하지는 못한다는 단점을 해결할 수 있다. Original GAN의 Discriminator와 Generator가 training 중에 external information을 받는 것이다. external information은 label이 될 수도 있고 다른 형식이 될 수도 있다.
+
+![conditionalgan](https://velog.velcdn.com/images%2Fwilko97%2Fpost%2F343d0fe0-0bcc-4ca8-abd3-384996d84513%2Fimage.png)
+
+CGAN은 학습과정 중에
+
+-   G는 training dataset의 label에 대응하는 실제적인 샘플을 만드는 과정을 학습한다.
+-   D는 label이 주어진 상태에서 real, fake를 구별하는 방법을 배운다.
+-   Original GAN과 거의 유사하지만 auxiliary information이 추가될 뿐이다.

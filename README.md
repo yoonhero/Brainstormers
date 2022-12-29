@@ -34,7 +34,7 @@
 
     -   Image
 
-        -   [ ] Generative Adversarial Nets (GAN)
+        -   [x] Generative Adversarial Nets (GAN)
 
         -   [ ] Analyzing and Improving the Image Quality of StyleGAN
         -   [ ] StyleGAN2 Distillation for Feed-forward Image Manipulation
