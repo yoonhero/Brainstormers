@@ -4,7 +4,7 @@
 
 Embedding 이라는 말은 NLP에서 많이 만날 수 있다. 이산적 범주형 변수를 sparse한 one-hot 인코딩으로 나타내는 것이 아니라 연속적인 값을 가지는 벡터로 표현하는 방법을 말한다. 즉, 수많은 단어를 one-hot 인코딩하면 수치로는 표현이 가능하겠지만 대부분의 값이 0이 되어버리기 때문에 매우 sparse 해지기 때문에 임의의 길이의 실수 벡터로 밀집되게 나타나게 하는 것을 일련의 임베딩이라고 한다. 각 카테고리를 나타내는 벡터를 임베딩 벡터라고 한다.
 
-![embedding](./docs/%08torch-embedding.jpeg)
+![embedding](./docs/torch-embedding.jpeg)
 
 ```python
 torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx, max_norm, norm_type)
@@ -27,6 +27,8 @@ torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx, max_norm, norm_ty
 ### Problem
 
 Batch로 나누어서 학습을 진행할 경우 Internal Covariant Shift 문제나 fully connected 연산 이후에 데이터의 분포가 달라질 수 있다는 문제를 가지고 있다. Internal Covariant Shift 문제는 학습 과정에서 계층 별로 입력 데이터의 분포가 달라지는 현상이다. 또 각 계층에서 입력 받은 feature은 convolution 연산이나 fully connected 연산을 거치고 데이터 분포가 달라질 수 있다.
+
+![internal_covariant_shift](https://miro.medium.com/max/678/1*BSssXFdw2MWR3SqdGF-BoQ.png)
 
 ### Solution
 
