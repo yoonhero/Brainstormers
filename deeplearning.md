@@ -135,3 +135,7 @@ torch.nn.BatchNorm2d(num_features)
 -   BatchNorm2d
     Input 과 OUtput이 (N, C, H, W) 의 형태를 가진다.
     C는 Channel을 말한다.
+
+
+> Batch Normalization Layer 는 활성화 함수 앞에 사용한다.
+

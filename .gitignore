@@ -162,3 +162,5 @@ cython_debug/
 paperwithcode/data
 paperwithcode/data/
 paperwithcode/gan.pt
+
+test/MNIST_DATASET
