@@ -30,6 +30,13 @@ Batch로 나누어서 학습을 진행할 경우 Internal Covariant Shift 문제
 
 ![internal_covariant_shift](https://miro.medium.com/max/678/1*BSssXFdw2MWR3SqdGF-BoQ.png)
 
+<strong>내부 공변량 변화(Internal convariate Shift)</strong>
+
+배치 정규화를 제안한 논문에서는 기울기 소실/폭주 등의 딥러닝 모델의 불안정성이 층마다 입력의 분포가 달라지기 때문이라고 주장했다. 
+
+- 공변량 변화는 훈련데이터의 분포와 테스트 데이터의 분포가 다른 경우를 의미
+- 내부 공변량 변화는 신경망 층 사이에서 발생하는 입력 데이터의 분포 변화를 의미한다.
+
 ### Solution
 
 -   Change Activation Function
@@ -41,13 +48,71 @@ Batch로 나누어서 학습을 진행할 경우 Internal Covariant Shift 문제
 
 활성화 함수가 필요한 이유는 바로 선형적으로 연결된 신경망에 활성화 함수가 없다면 아무리 신경망이 깊어지더라도 선형적인 관계만 나타낼 수 있기 때문이다. 비선형적인 데이터의 분류등을 진행하기 위해서 활성화 함수가 각 계층마다 필요한 것이다.
 
-Sigmoid 함수는 신경망이 깊어지면 깊어질수록 기울기가 소실되는 문제가 발생한다. 0에서 1사이의 값으로 반환하기 때문에 값이 점차 작아지는 Gradient Vanishing 문제가 발생할 수 있다. 이로 인해서 많은 깊은 신경망에서는 ReLU 활성화 함수가 사용된다. ReLU가 0이하의 값을 모두 0으로 처리하는 문제를 LeakyReLU라는 활성화함수가 해결하는 등 활성화 함수는 계속 발전하고 있어서 활성화 함수를 바꿔서 학습을 더 잘 진행할 수 있다.
 
 ### Careful Initialization
 
-<strong>He Initialization</strong>
+신경망 학습에서 특히 중요한 것은 가중치의 초깃값이다. 가중치의 초깃값을 무엇으로 설정하느냐가 신경망 학습에 영향을 많이 끼친다. 그 이유는 각 뉴런의 가중치를 기반으로 에러를 결정하기 때문이고, 정확한 모델을 얻으려면 작은 에러를 필요로 하기 때문이다. 
+
+
+<strong>Weight Decay</strong>
+
+가중치 감소(Weight Decay) 기법은 overfitting을 억제해 성능을 높이는 기술이다. 
+
+Weight Decay는 loss function에 L2 Norm과 같은 penalty를 추가하는 정규화 기법이다. 
+
+- Norm
+    Norm은 벡터의 크기를 측정하는 방법이다. 두 벡터 사이의 거리를 측정하는 방법이기도 하다. 
+    
+    ![norm](https://wikimedia.org/api/rest_v1/media/math/render/svg/811da8c9721a21d9c3e638e2c30884adc9c38c5b)
+
+    - L1 Norm
+        L1 Norm 은 벡터 p, q의 각 원소들의 차이의 절대값의 합이다.
+        L1 Regularization 은 cost function에 가중치의 절대값을 더해준 것을 cost로 사용하는 것으로 가중치의 크기가 너무 크지 않는 방향으로 학습 되도록 한다. L1 Regularization을 사용하는 Regression model을 Least Absolute Shrinkage and Selection Operator Regression 이라고 부른다. 
+
+    - L2 Norm
+        L2 Norm은 벡터 p, q의 유클리디안 거리이다. 
+        L2 Regularization 도 L1 Regularization 과 비슷하게 가중치가 너무 크지 않는 방향으로 학습되게 된다. 이를 weight decay라고도 한다.
+
+    L2 Norm은 직관적으로 오차의 제곱을 더해서 L1 Norm보다 Outlier에 더 큰 영향을 받는다. 그래서 L1 Norm은 Feature Selection 이 가능하여 Sparse Model에 적합하다.  
+
+![weightdecay](http://androidkt.com/wp-content/uploads/2021/09/L1-Regula.png)
+
+그 결과로
+
+- Overfitting을 방지한다.
+- Weight를 작게 유지해서 Gradient Exploding을 방지한다.
+
+<strong>Zero Initialization</strong>
+
+결론적으로 가중치를 0으로 초기화시키는 방법은 아주 나쁜 방법이다. 0으로 초기화하면 제대로 학습되지 않는다. 그 이유는 각 뉴런이 training중에 동일한 feature를 학습하기 때문이다. 모두 동일한 feature을 학습한다는 것은 역전파 과정에서 모든 weight 값이 동일하게 바뀌어 학습이 진행되지 않는 것을 의미한다.
+
+가중치가 고르게 되는 대칭적 가중치 문제를 해결하기 위해서 가중치를 무작위로 설정하는 방법이 있다.
+
+<strong>Random Initialization</strong>
+
+이 방법도 zero initialization 에서 설명한 것과 같이 같은 가중치 값을 가져서 뉴런을 여러 개 둔 의미가 사라지는 문제가 발생한다. 
+ 
+결론적으로 기울기 문제를 막기 위해서는 다음과 같은 결론을 내릴 수 있다.
+
+- activation의 평균은 0이어야 한다.
+- activation의 variance는 모든 layer에서 동일하게 유지되어야 한다.
+
+
 
 <strong>Xavier Initialization</strong>
+
+각 레이어의 활성화 값을 더 광범위하게 분포시킬 목적으로 weight의 적절한 분포를 찾으로 했다. tanh 또는 sigmoid로 활성화 되는 초깃값을 위해 이 방법을 주로 사용한다. 이전 layer의 neuron의 개수가 n이라면 표준편차가 $\dfrac{1}{\sqrt{n}}$ 인 분포를 사용한다. 
+
+너무 크지도 않고 작지도 않은 가중치를 사용하여 기울기가 소실되거나 폭발하는 문제를 막는다.
+
+> ReLU를 이용할 때는 비선형성이 발생하여 Xavier 초기화가 효과적이지 않는다.
+
+<strong>He Initialization</strong>
+
+He 초기화에선느 표준편차가 $\dfrac{2}{\sqrt{n}}$ 인 정규분포를 사용한다. ReLU는 음의 영역이 0이라서 활성화되는 영역을 더 넓게 분포시키기 위해서 2배의 계수가 필요하다고 간단하게 해석할 수 있다.
+
+> activation function으로 ReLU를 사용하면 He 초깃값을 쓰는 것이 좋다.
+
 
 ### Small Learning Rate
 
