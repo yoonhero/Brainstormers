@@ -329,8 +329,12 @@ UCI에서 진행한 사람의 움직임을 자이로 센서로 9 채널로 입�
 
 ## Reference
 
-- [https://ydy8989.github.io/2021-02-02-conv/](https://ydy8989.github.io/2021-02-02-conv/)
-- [https://www.youtube.com/watch?v=KuXjwB4LzSA&t=11s](https://www.youtube.com/watch?v=KuXjwB4LzSA&t=11s)
-- [https://89douner.tistory.com/57](https://89douner.tistory.com/57)
-- [https://yjjo.tistory.com/8](https://yjjo.tistory.com/8)
-- [https://github.com/ifding/learning-notes/blob/master/machine-learning/1d-2d-and-3d-convolutions-in-cnn.md](https://github.com/ifding/learning-notes/blob/master/machine-learning/1d-2d-and-3d-convolutions-in-cnn.md)
+
+
+- CNN
+
+    - [https://ydy8989.github.io/2021-02-02-conv/](https://ydy8989.github.io/2021-02-02-conv/)
+    - [https://www.youtube.com/watch?v=KuXjwB4LzSA&t=11s](https://www.youtube.com/watch?v=KuXjwB4LzSA&t=11s)
+    - [https://89douner.tistory.com/57](https://89douner.tistory.com/57)
+    - [https://yjjo.tistory.com/8](https://yjjo.tistory.com/8)
+    - [https://github.com/ifding/learning-notes/blob/master/machine-learning/1d-2d-and-3d-convolutions-in-cnn.md](https://github.com/ifding/learning-notes/blob/master/machine-learning/1d-2d-and-3d-convolutions-in-cnn.md)

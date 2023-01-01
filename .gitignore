@@ -164,3 +164,4 @@ paperwithcode/data/
 paperwithcode/gan.pt
 
 test/MNIST_DATASET
+paperwithcode/MNIST_DATASET

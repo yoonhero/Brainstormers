@@ -52,7 +52,7 @@
         -   [ ] Imagic: Text-Based Real Image Editing with Diffusion Models
 
 -   To Study Again
-    -   [ ] CNN
+    -   [x] CNN
     -   [ ] RNN
     -   [ ] LSTM
     -   [ ] Seq2Seq
