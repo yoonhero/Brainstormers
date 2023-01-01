@@ -58,4 +58,4 @@
     -   [ ] Seq2Seq
     -   [x] Embedding
     -   [x] Regularization
-    -   [ ] Optimization
+    -   [x] Optimization

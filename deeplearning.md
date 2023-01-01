@@ -324,8 +324,58 @@ UCI에서 진행한 사람의 움직임을 자이로 센서로 9 채널로 입�
 
 
 
+## Optimization
+
+**Optimizer**
+
+손실함수를 줄여나가면서 학습하는 방법은 어던 옵티마이저를 사용하느냐에 따라 달라진다. 경사하강법은 가장 기본적이지만 가장 많이 사용되는 최적화 알고리즘이다. 손실 함수의 1차 도함수에 의존하는 first-order 최적화 알고리즘으로 함수가 어떤 방향으로 가중치를 업데이터해야 하는지를 계산한다. 역전파를 통해 손실이 한 계층에서 다른 계층으로 전달되고, 다시 이 손실에 따라 모델의 파라미터가 수정되어 손실을 최소화할 수 있다.
+
+경사 하강법의 문제점
+
+- 한번 학습할 때마다 모든 데이터셋을 이용한다. -> 확률적 경사 하강법
+- 학습률 정하기: 학습률이 너무 크다면, 최솟값을 계산하도록 수렴하지 못하고 손실값이 계속 커지는 방향으로 진행될 수도 있다. 학습률이 너무 작다면, 최솟값을 찾는데 오랜 시간이 걸린다.
+- Local Minima: 진짜 목표인 global minimum을 찾지 못하고 local minimum에 갇혀버릴 수도 있다. 
+- 메모리 한계: 모든 데이터를 한 번에 다 학습한다면 메모리의 용량이 부족할 수 있다.
+
+=> SGD 등장!
+
+### SGD (Stochastic Gradient Descent; 확률적 경사하강법)
+
+SGD는 GD와 유사하지만 전체 데이터가 아닌 미니 배치 사이즈만큼의 데이터로 경사 하강법을 실시한다는 차이가 있다. 이를 통해 학습 속도를 빠르게 할 수 있을 뿐만 아니라 메모리도 절약할 수 있다. 
+
+=> 학습률 설정, local minima 문제, oscillation 문제 해결 x
 
 
+### Momentum
+
+모멘텀은 SGD의 높은 편차를 줄이고 수렴을 부드럽게 하기 위해 고안되었다. 이는 관련 방향으로의 수렴을 가속화하고 관련 없는 방향으로의 변동을 줄여준다. 말 그래도 이동하는 방향으로 나아가는 '관성'을 주는 것이다. 
+
+![momentum](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbzwTc0%2FbtrghQoeWvu%2FRvKTkqI4ObkPQreXTBqgUk%2Fimg.png)
+
+
+- SGD에 비해 파라미터의 분산이 줄어들고 덜 oscillate 한다는 장점이 있고, 빠르게 수렴한다.
+- r라는 새로운 하이퍼 파라미터를 잘 설정해줘야 한다는 단점이 있다.
+
+
+### Adagrad
+
+지금까지의 옵티마이저의 단점 중 하나는 학습률이 모든 파라미터와 각 cycle에 대해 일정하다는 것이다. Adagrad는 각 파라미터와 각 단계마다 학습률을 변경할 수 있다. 
+
+> 이 알고리즘의 기본적인 아이디어는 ‘지금까지 많이 변화하지 않은 변수들은 step size를 크게 하고, 지금까지 많이 변화했던 변수들은 step size를 작게 하자’ 라는 것이다. 자주 등장하거나 변화를 많이 한 변수들의 경우 optimum에 가까이 있을 확률이 높기 때문에 작은 크기로 이동하면서 세밀한 값을 조정하고, 적게 변화한 변수들은 optimum 값에 도달하기 위해서는 많이 이동해야할 확률이 높기 때문에 먼저 빠르게 loss 값을 줄이는 방향으로 이동하려는 방식이라고 생각할 수 있겠다.
+ - 출처 : http://shuuki4.github.io/deep%20learning/2016/05/20/Gradient-Descent-Algorithm-Overview.html
+
+- 이계도 함수를 계산해야 하기 때문에 계산 비용이 많이 든다.
+- 학습을 진행하면서 학습률이 줄어든다는 문제점이 있다.
+- 최솟값에 도달하기도 전에 학습률이 0에 수렴해버릴 수도 있다.
+
+
+### RMSProp
+
+RMSProp은 Adagrad에서의 단점을 해결하기 위해서 지수 이동평균을 이용한다. 지수 이동평균을 이용해 가중치로 영향력을 decay한다. 
+
+### Adam (Adaptive Moment Estimation)
+
+각 파라미터마다 다른 크기의 업데이트를 진행하는 방법이다. Adam의 직관은 local minima를 뛰어넘을 수 있다는 이유만으로 빨리 굴러가는 것이 아닌, minima의 탐색을 위해 조심스럽게 속도를 줄이고자 하는 것이다. 
 
 ## Reference
 
@@ -338,3 +388,8 @@ UCI에서 진행한 사람의 움직임을 자이로 센서로 9 채널로 입�
     - [https://89douner.tistory.com/57](https://89douner.tistory.com/57)
     - [https://yjjo.tistory.com/8](https://yjjo.tistory.com/8)
     - [https://github.com/ifding/learning-notes/blob/master/machine-learning/1d-2d-and-3d-convolutions-in-cnn.md](https://github.com/ifding/learning-notes/blob/master/machine-learning/1d-2d-and-3d-convolutions-in-cnn.md)
+
+
+- Optimization
+
+    - [https://heeya-stupidbutstudying.tistory.com/entry/ML-%EC%8B%A0%EA%B2%BD%EB%A7%9D%EC%97%90%EC%84%9C%EC%9D%98-Optimizer-%EC%97%AD%ED%95%A0%EA%B3%BC-%EC%A2%85%EB%A5%98](https://heeya-stupidbutstudying.tistory.com/entry/ML-%EC%8B%A0%EA%B2%BD%EB%A7%9D%EC%97%90%EC%84%9C%EC%9D%98-Optimizer-%EC%97%AD%ED%95%A0%EA%B3%BC-%EC%A2%85%EB%A5%98)
