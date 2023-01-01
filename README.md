@@ -56,6 +56,6 @@
     -   [ ] RNN
     -   [ ] LSTM
     -   [ ] Seq2Seq
-    -   [ ] Embedding
-    -   [ ] Regularization
+    -   [x] Embedding
+    -   [x] Regularization
     -   [ ] Optimization
