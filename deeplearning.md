@@ -346,7 +346,21 @@ VGG 연구자들은 3x3 필터 사이즈만을 사용하면서 엄청난 사실�
 
 1x1 conv layer을 사용한 이유는 비선형성을 부여하기 위해서라고 한다. 입력과 출력의 channels을 동일하게 하고 1x1 conv layer를 이용하면 relu 함수를 거치게 되어 추가적인 비선형성이 부여된다.
 
+## GoogLeNet (2014)
 
+GoogLeNet은 sparse한 data 구조에 집중한다. NIN이라는 논문에서는 높은 상관관계에 있는 뉴런들을 군집화 시키고 마지막 계층에서 활성화 함수들의 상관관계를 분석함으로써 최적의 network topology를 구축할 수 있었다고 말한다. NIN을 간단히 말하면 convolution을 수행할 때, 수행 후 feature map을 얻게 되는데, multilayer perceptron 네트워크를 convolution시 추가로 적용하여 feature map을 만든다. 
+
+이를 통해 fully connected layer와 convolution layer를 dense 구조에서 sparse 구조로 바꿀 수 있었다고 말한다. GoogLeNet에서는 NIN을 구현하기 위해 Inception module을 적용하였다고 한다.
+
+**Inception Module**
+
+Inception module의 주요 아이디어는 convolutional network에서 sparse 구조를 손쉽게 dense 요소들로 근사화하고 다룰 수 있는 방법을 찾는 것에서 근거한다. 
+
+Inception module에서 feature map을 효과적으로 추출하기 위해 1x1, 3x3, 5x5의 convolution 연산을 각각 수행하며, 각각 Matrix의 height, width가 같아야 하므로 pooling 연산에서 padding을 추가해준다. 
+
+**Auxiliary Classifier**
+
+네트워크의 깊이가 깊어지면 깊어질수록 vanishing gradient 문제를 피하기 어려워지는데 이 문제를 극복하기 위해서 네트워크 중간에 보조 분류기(Auxiliary Classifier)을 달아주었다.
 
 
 ## Optimization
@@ -436,6 +450,8 @@ RMSProp은 Adagrad에서의 단점을 해결하기 위해서 지수 이동평균
     - [https://yjjo.tistory.com/8](https://yjjo.tistory.com/8)
     - [https://github.com/ifding/learning-notes/blob/master/machine-learning/1d-2d-and-3d-convolutions-in-cnn.md](https://github.com/ifding/learning-notes/blob/master/machine-learning/1d-2d-and-3d-convolutions-in-cnn.md)
     - [https://statinknu.tistory.com/26](https://statinknu.tistory.com/26)
+    - [https://deep-learning-study.tistory.com/389?category=963091](https://deep-learning-study.tistory.com/389?category=963091)
+    - [https://deep-learning-study.tistory.com/523](https://deep-learning-study.tistory.com/523)
 
 
 - Optimization
