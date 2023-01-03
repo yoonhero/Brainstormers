@@ -404,7 +404,20 @@ RMSProp은 Adagrad에서의 단점을 해결하기 위해서 지수 이동평균
 
 
 
+## Activation
 
+### ReLU
+
+비선형성을 증가시킨다?? 증가시키면 뭐가 좋다구?
+
+- 합성곱 계층 개수가 커지면, 그리고 각 합성곱 계층 다음에 ReLU와 같은 '비선형' 활성화 함수가 오면 네트워크가 복잡한 특징을 학습할 수 있는 능력이 증대된다. **(더 많은 비선형 연산을 결합함으로써)**
+- ReLU의 장점
+  - Sparse Activation: 0이하의 입력에 대해 0을 출력함으로서 부분적으로 활성화할 수 있다.
+  - Efficient Gradient Propagation: Gradient의 Vanishing이 없으며 Gradient가 Exploding 되지 않는다. (기울기가 0<x에서 1이기 때문이다!)
+  - Efficient Computation: 선형 함수이므로 미분 계산이 매우 간단하다.
+
+- 비선형 함수를 활성화 함수로 이용하는 이유는 선형함수를 사용할 시 층을 깊게 하는 의미가 줄어들기 때문이다. 뉴럴 네트워크에서 층을 쌓는 효과를 얻고 싶다면 반드시 비선형 함수를 사용해야 한다.
+- 비선형성이 증가한다는 것은 그만큼 복잡한 패턴을 좀 더 잘 인식할 수 있게 된다는 의미이다.!
 
 
 
@@ -428,3 +441,7 @@ RMSProp은 Adagrad에서의 단점을 해결하기 위해서 지수 이동평균
 - Optimization
 
     - [https://heeya-stupidbutstudying.tistory.com/entry/ML-%EC%8B%A0%EA%B2%BD%EB%A7%9D%EC%97%90%EC%84%9C%EC%9D%98-Optimizer-%EC%97%AD%ED%95%A0%EA%B3%BC-%EC%A2%85%EB%A5%98](https://heeya-stupidbutstudying.tistory.com/entry/ML-%EC%8B%A0%EA%B2%BD%EB%A7%9D%EC%97%90%EC%84%9C%EC%9D%98-Optimizer-%EC%97%AD%ED%95%A0%EA%B3%BC-%EC%A2%85%EB%A5%98)
+    
+- Activation
+    
+    - [https://driip.me/af3d08bb-c39a-416b-9301-51594a8f6848](https://driip.me/af3d08bb-c39a-416b-9301-51594a8f6848)
