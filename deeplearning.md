@@ -175,6 +175,16 @@ torch.nn.BatchNorm2d(num_features)
 
 > Batch Normalization Layer 는 활성화 함수 앞에 사용한다.
 
+### Dropout
+
+Drop-out은 서로 연결된 연결망에서 0부터 1사이의 확률로 뉴런을 제거하는 기법이다. Drop-out 이전에 4개의 뉴런끼리 모두 연결되어 있는 전결합 계층에서 4개의 뉴런은 각각 0.5의 확률로 제거될지 말지 랜덤하게 결정된다.    
+
+그렇다면 왜 사용할까??
+
+Drop-out은 어떤 특정한 설명 변수의 Feature만을 과도하게 집중하여 학습함으로써 발생할 수 있는 과대적합을 방지하기 위해 사용된다. 드롭아웃을 적용하여 더욱 편향되지 않은 출력값을 얻는 데 효과적이다. 
+
+
+
 
 ## CNN (Convolution Neural Network)
 
@@ -323,6 +333,21 @@ UCI에서 진행한 사람의 움직임을 자이로 센서로 9 채널로 입�
 - example) C3D video descriptor 
 
 
+## VGGNet (2014)
+
+깊이가 깊어지면 overfitting, gradient vanishment, 연산량 문제가 생기기 때문에 깊이를 증가시키는 것이 쉬운 문제는 아니었다. VGGNet의 핵심 내용은 다음과 같다.
+
+- 깊이를 증가시키면 정확도가 좋아진다.
+- 3x3 필터를 여러 겹 사용하여 크기가 큰 필터를 분해하면 추가적인 비선형성을 부여하고 parameter 수를 감소시킨다.
+- pre-initialization을 이용하면 모델이 빠르게 수렴한다.
+- data augmentation(resize, crop, flip)을 적용하면 다양한 scale로 feature을 포착할 수 있다.
+
+VGG 연구자들은 3x3 필터 사이즈만을 사용하면서 엄청난 사실을 발견했다. 3x3 convolutional filter를 2개 이용하면 5x5 convolutional, 3개 이용하면 7x7 convolutional이 된다. 3x3 filter를 여러 겹 이용하게 되면 하나의 relu 대신 2개, 3개의 relu를 이용할 수 있고, parameter 수를 감소시킬 수 있다고 한다. 
+
+1x1 conv layer을 사용한 이유는 비선형성을 부여하기 위해서라고 한다. 입력과 출력의 channels을 동일하게 하고 1x1 conv layer를 이용하면 relu 함수를 거치게 되어 추가적인 비선형성이 부여된다.
+
+
+
 
 ## Optimization
 
@@ -377,9 +402,18 @@ RMSProp은 Adagrad에서의 단점을 해결하기 위해서 지수 이동평균
 
 각 파라미터마다 다른 크기의 업데이트를 진행하는 방법이다. Adam의 직관은 local minima를 뛰어넘을 수 있다는 이유만으로 빨리 굴러가는 것이 아닌, minima의 탐색을 위해 조심스럽게 속도를 줄이고자 하는 것이다. 
 
+
+
+
+
+
+
+
 ## Reference
 
-
+- Regularization
+  - [https://heytech.tistory.com/127](https://heytech.tistory.com/127)
+  - [https://heytech.tistory.com/125](https://heytech.tistory.com/125)
 
 - CNN
 
@@ -388,6 +422,7 @@ RMSProp은 Adagrad에서의 단점을 해결하기 위해서 지수 이동평균
     - [https://89douner.tistory.com/57](https://89douner.tistory.com/57)
     - [https://yjjo.tistory.com/8](https://yjjo.tistory.com/8)
     - [https://github.com/ifding/learning-notes/blob/master/machine-learning/1d-2d-and-3d-convolutions-in-cnn.md](https://github.com/ifding/learning-notes/blob/master/machine-learning/1d-2d-and-3d-convolutions-in-cnn.md)
+    - [https://statinknu.tistory.com/26](https://statinknu.tistory.com/26)
 
 
 - Optimization
