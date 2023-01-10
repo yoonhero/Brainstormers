@@ -1,4 +1,20 @@
-# 생성 모델에 대한 논문 정리
+# Generative Model
+
+## Index
+
+- [Generative Model](#generative-model)
+  - [Index](#index)
+  - [Generative Model](#generative-model-1)
+  - [Generative Adversarial Nets](#generative-adversarial-nets)
+    - [학습과정](#학습과정)
+    - [수식](#수식)
+    - [한계점](#한계점)
+    - [더 공부할 것](#더-공부할-것)
+    - [IS (Inception Score)](#is-inception-score)
+    - [FID (Frechet Inception Distance)](#fid-frechet-inception-distance)
+  - [Conditional GAN](#conditional-gan)
+
+---
 
 ## Generative Model
 

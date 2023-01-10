@@ -53,9 +53,9 @@
 
 -   To Study Again
     -   [x] CNN
-    -   [ ] RNN
-    -   [ ] LSTM
-    -   [ ] Seq2Seq
+    -   [x] RNN
+    -   [x] LSTM
+    -   [x] Seq2Seq
     -   [x] Embedding
     -   [x] Regularization
     -   [x] Optimization
