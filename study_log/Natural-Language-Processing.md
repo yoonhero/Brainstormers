@@ -106,6 +106,16 @@ RNN에서의 가장 큰 문제점은 Exploding Gradient와 Vanishing Gradient이
 
 > LSTM 구조 너무 복잡해;;; ====> GRU 등장
 
+
+```python
+nn.RNN(input_size hidden_size num_layers batch_fist)
+```
+
+- input_size: 입력해 주는 특성 값의 개수이다. (batch_size, time_steps, input_size)
+- hidden_size: hidden state 개수를 지정한다.
+- num_layers: RNN층을 쌓아 올릴 수 있다.
+- batch_first: 첫번째 차원을 배치 차원으로 사용할지 
+
 ### GRU
 
 <strong>GRU</strong>는 LSTM 구조에서 cell 구조가 제외되어 간소화된 구조이다.
