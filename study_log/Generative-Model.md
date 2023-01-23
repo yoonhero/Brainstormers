@@ -4,7 +4,7 @@
 
 - [Generative Model](#generative-model)
   - [Index](#index)
-  - [Generative Model](#generative-model-1)
+  - [Generative Model Definition](#generative-model-definition)
   - [Generative Adversarial Nets](#generative-adversarial-nets)
     - [학습과정](#학습과정)
     - [수식](#수식)
@@ -13,10 +13,14 @@
     - [IS (Inception Score)](#is-inception-score)
     - [FID (Frechet Inception Distance)](#fid-frechet-inception-distance)
   - [Conditional GAN](#conditional-gan)
+  - [Variational AutoEncoder](#variational-autoencoder)
+    - [Autoencoder](#autoencoder)
+    - [VAE](#vae)
+    - [사용사례](#사용사례)
 
 ---
 
-## Generative Model
+## Generative Model Definition
 
 -   A statistical model of the joint probability distribution
 -   An architecture to generate new data instances
@@ -94,3 +98,43 @@ CGAN은 학습과정 중에
 -   G는 training dataset의 label에 대응하는 실제적인 샘플을 만드는 과정을 학습한다.
 -   D는 label이 주어진 상태에서 real, fake를 구별하는 방법을 배운다.
 -   Original GAN과 거의 유사하지만 auxiliary information이 추가될 뿐이다.
+
+
+## Variational AutoEncoder
+
+### Autoencoder
+
+![ae](https://tikz.net/janosh/autoencoder.png)
+
+- Encoder : 고차원의 입력 데이터 -> 저차원의 표현 벡터
+- Decoder : 표현 벡터 -> 원본 차원
+
+AutoEncoder은 입력데이터와 Decoder의 출력과의 손실을 최소화하는 방향으로 훈련된다. AutoEncoder의 Encoder Decoder에서는 FC를 사용하거나 Conv와 Deconv 블록이 사용된다. 
+
+| | Conv | Conv Transpose |
+|------|---|---|
+| 구조 | Encoder | Decoder |
+| 사용목적 | 이미지크기 줄이기 | 이미지크기 늘리기 |
+| 역할 | 특징추출 | 특징복원 |
+
+<strong>Conv Transpose</strong>는 output의 크기를 줄여서 feature을 추출하는 convolutional layer와는 반대로 output의 크기가 input보다 커지게 하는 방법으로 Upsampling의 한 종류이다. Upsampling에는 unpooling과 transposed convolution이 있다. Upsampoling은 input 이미지를 압축된 벡터로 표현했다가 원래의 input 이미지와 동일한 크기로 되돌릴 때 사용될 수 있다. 
+
+![t_conv](https://user-images.githubusercontent.com/50395556/81541105-9401e980-93ad-11ea-87a1-a7676fbd8314.png)
+
+Transposed Convolution은 input의 빨간색 원소를 3x3 kernel에 곱해서 output에 대응하는 자리에 집어넣고 같은 방법으로 다른 부분도 집어넣는다. 연산을 반복하면서 겹치는 부분의 값을 모두 더해준다.
+
+### VAE
+
+VAE는 AE를 진화시킨 버젼이라고 볼 수 있다. AE의 Bottle Neck 부분을 진화시켜서 바로 잠재 벡터화하는 것이 아니라 인코더의 각 입력을 평균 벡터와 분산 벡터로 매핑하는 과정을 거친다. 논문의 저자들은 이 두 벡터를 Reparameterization Trick을 사용하여 Backpropagation 할 수 있도록 했다고 한다. 
+
+![vae](https://gaussian37.github.io/assets/img/dl/concept/vae/0.png)
+
+![vae_loss](https://velog.velcdn.com/images/tobigs1617/post/e0486aee-7f50-469f-a6ec-2f45a0d285ea/image.png)
+
+
+### 사용사례
+
+- 구글이 이미지를 VAE로 디코딩하여 이미지 용량을 줄여 밴드위치를 줄였다고 한다.
+- Image Segmentation 기법에 활용될 수 있다. (자율주행차)
+- Noisy Image를 재구성해서 Denoise 작업을 수행할 수 있다.
+- Neural Inpainting으로 이미지를 복원할 수 있다. (워터마크 없애기)

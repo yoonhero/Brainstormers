@@ -42,7 +42,9 @@
 
         -   [ ] Pixel Recurrent Neural Networks (PixelRNN)
 
-        -   [ ] Auto-Encoding Variational Bayes (VAE)
+        -   [x] Auto-Encoding Variational Bayes (VAE)
+        -   [ ] Disentangling Variational Autoencoders
+        -   [ ] U-Net: Convolutional Networks for Biomedical Image Segmentation
 
         -   [ ] Zero-Shot Text-to-Image Generation (DallE-1)
         -   [ ] Hierarchical Text-Conditional Image Generation with CLIP Latents (DallE-2)
