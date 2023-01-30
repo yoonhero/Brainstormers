@@ -5,17 +5,25 @@
 - [Generative Model](#generative-model)
   - [Index](#index)
   - [Generative Model Definition](#generative-model-definition)
+  - [Variational AutoEncoder](#variational-autoencoder)
+    - [Autoencoder](#autoencoder)
+    - [VAE](#vae)
   - [Generative Adversarial Nets](#generative-adversarial-nets)
     - [학습과정](#학습과정)
-    - [수식](#수식)
+    - [Loss Function Formula](#loss-function-formula)
     - [한계점](#한계점)
     - [더 공부할 것](#더-공부할-것)
     - [IS (Inception Score)](#is-inception-score)
     - [FID (Frechet Inception Distance)](#fid-frechet-inception-distance)
   - [Conditional GAN](#conditional-gan)
-  - [Variational AutoEncoder](#variational-autoencoder)
-    - [Autoencoder](#autoencoder)
-    - [VAE](#vae)
+  - [DCGAN](#dcgan)
+  - [WGAN-GP](#wgan-gp)
+  - [PGGAN: Progressive Growing of GANs](#pggan-progressive-growing-of-gans)
+  - [StyleGAN: A Style-Based Generator Architecture for Generative Adversarial Networks](#stylegan-a-style-based-generator-architecture-for-generative-adversarial-networks)
+    - [StyleGAN의 의의](#stylegan의-의의)
+    - [StyleGAN's Key IDEA: Mapping Network](#stylegans-key-idea-mapping-network)
+    - [AdaIN (Adaptive Instance Normalization)](#adain-adaptive-instance-normalization)
+    - [Architecture](#architecture)
     - [사용사례](#사용사례)
 
 ---
@@ -26,6 +34,40 @@
 -   An architecture to generate new data instances
 
 생성 모델은 실존하지 않지만 있을 법한 이미지를 훈련 데이터셋의 확률 분포로 만들어낸다.
+
+
+
+## Variational AutoEncoder
+
+### Autoencoder
+
+![ae](https://tikz.net/janosh/autoencoder.png)
+
+- Encoder : 고차원의 입력 데이터 -> 저차원의 표현 벡터
+- Decoder : 표현 벡터 -> 원본 차원
+
+AutoEncoder은 입력데이터와 Decoder의 출력과의 손실을 최소화하는 방향으로 훈련된다. AutoEncoder의 Encoder Decoder에서는 FC를 사용하거나 Conv와 Deconv 블록이 사용된다. 
+
+| | Conv | Conv Transpose |
+|------|---|---|
+| 구조 | Encoder | Decoder |
+| 사용목적 | 이미지크기 줄이기 | 이미지크기 늘리기 |
+| 역할 | 특징추출 | 특징복원 |
+
+<strong>Conv Transpose</strong>는 output의 크기를 줄여서 feature을 추출하는 convolutional layer와는 반대로 output의 크기가 input보다 커지게 하는 방법으로 Upsampling의 한 종류이다. Upsampling에는 unpooling과 transposed convolution이 있다. Upsampoling은 input 이미지를 압축된 벡터로 표현했다가 원래의 input 이미지와 동일한 크기로 되돌릴 때 사용될 수 있다. 
+
+![t_conv](https://user-images.githubusercontent.com/50395556/81541105-9401e980-93ad-11ea-87a1-a7676fbd8314.png)
+
+Transposed Convolution은 input의 빨간색 원소를 3x3 kernel에 곱해서 output에 대응하는 자리에 집어넣고 같은 방법으로 다른 부분도 집어넣는다. 연산을 반복하면서 겹치는 부분의 값을 모두 더해준다.
+
+### VAE
+
+VAE는 AE를 진화시킨 버젼이라고 볼 수 있다. AE의 Bottle Neck 부분을 진화시켜서 바로 잠재 벡터화하는 것이 아니라 인코더의 각 입력을 평균 벡터와 분산 벡터로 매핑하는 과정을 거친다. 논문의 저자들은 이 두 벡터를 Reparameterization Trick을 사용하여 Backpropagation 할 수 있도록 했다고 한다. 
+
+![vae](https://gaussian37.github.io/assets/img/dl/concept/vae/0.png)
+
+![vae_loss](https://velog.velcdn.com/images/tobigs1617/post/e0486aee-7f50-469f-a6ec-2f45a0d285ea/image.png)
+
 
 ## Generative Adversarial Nets
 
@@ -58,9 +100,12 @@ G는 데이터를 생성하여 자신이 생성한 데이터를 최대한 실제
 
 ![progress](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F9916313C5AAEB6CB1B)
 
-### 수식
+### Loss Function Formula
 
 ![gan_formula](https://t1.daumcdn.net/cfile/tistory/995E00345AAE7B6401)
+
+GAN 신경망의 목표는 Generator의 손실을 최소화하고 Discriminator의 손실을 극대화하는 것이다. 왜 Discriminator의 손실을 극대화 해야하는지 묻는다면 Discriminator의 task는 곧 Generator가 생성한 새로운 Distribution과 원본 데이터 Distribution을 구별하는 것이기에 이 손실이 높으면 높을수록 Generator가 원본 데이터셋의 Distribution과 유사한 데이터 분포를 구사한 것이기 때문이다. 코드를 살펴보면 알 수 있겠지만 Discriminator 신경망을 backpropagation 할 때는 왼쪽과 오른쪽 둘다 사용하고 Generator 신경망을 backpropagation 할 때는 오른쪽 식만 사용한다. 
+
 
 ### 한계점
 
@@ -99,38 +144,62 @@ CGAN은 학습과정 중에
 -   D는 label이 주어진 상태에서 real, fake를 구별하는 방법을 배운다.
 -   Original GAN과 거의 유사하지만 auxiliary information이 추가될 뿐이다.
 
+## DCGAN
 
-## Variational AutoEncoder
+> GAN이 고해상도 이미지도 생성이 가능하다는 것을 증명한 논문
 
-### Autoencoder
+Vanilla GAN 의 가장 큰 문제점이라고 한다면 바로 Linear Layer 을 활용하여 Generator를 구성하였기에 MNSIT나 CIFAR10과 같은 저화질 이미지 합성에는 좋은 성능을 보이지만 고화질 이미지 Synthesis 과정에서는 성능이 떨어지는 것이었다. 위 논문에서는 Generator에 Transposed Convolution Layer을 활용하여 Synthesis Network를 구성했고 실제로 좋은 성능을 보였다. 
 
-![ae](https://tikz.net/janosh/autoencoder.png)
+![dcgan](https://tutorials.pytorch.kr/_images/dcgan_generator.png)
 
-- Encoder : 고차원의 입력 데이터 -> 저차원의 표현 벡터
-- Decoder : 표현 벡터 -> 원본 차원
+- 너비 높이 4*4와 1024 Channel 에서 너비와 길이를 증가시키지만 채널수를 줄여서 이미지를 재구성한다. => <strong>고성능 이미지 합성을 가능하도록</strong>
+- Vector Arithmetic: 특성에 대한 latent vector을 최적화시키면 벡터 연산을 통해서 안경을 씌우는 것과 같은 이미지 합성 task를 수행할 수 있음을 밝혔다. => <strong>Semantic Manipulation</strong>
 
-AutoEncoder은 입력데이터와 Decoder의 출력과의 손실을 최소화하는 방향으로 훈련된다. AutoEncoder의 Encoder Decoder에서는 FC를 사용하거나 Conv와 Deconv 블록이 사용된다. 
 
-| | Conv | Conv Transpose |
-|------|---|---|
-| 구조 | Encoder | Decoder |
-| 사용목적 | 이미지크기 줄이기 | 이미지크기 늘리기 |
-| 역할 | 특징추출 | 특징복원 |
+## WGAN-GP
 
-<strong>Conv Transpose</strong>는 output의 크기를 줄여서 feature을 추출하는 convolutional layer와는 반대로 output의 크기가 input보다 커지게 하는 방법으로 Upsampling의 한 종류이다. Upsampling에는 unpooling과 transposed convolution이 있다. Upsampoling은 input 이미지를 압축된 벡터로 표현했다가 원래의 input 이미지와 동일한 크기로 되돌릴 때 사용될 수 있다. 
+> GAN의 고질병인 학습의 불안정성을 해결하는 새로운 Loss Function!
 
-![t_conv](https://user-images.githubusercontent.com/50395556/81541105-9401e980-93ad-11ea-87a1-a7676fbd8314.png)
+## PGGAN: Progressive Growing of GANs
 
-Transposed Convolution은 input의 빨간색 원소를 3x3 kernel에 곱해서 output에 대응하는 자리에 집어넣고 같은 방법으로 다른 부분도 집어넣는다. 연산을 반복하면서 겹치는 부분의 값을 모두 더해준다.
+PGGAN은 학습 과정에서 레이어를 추가한다는 새로운 아이디어를 제시한 논문이다. 고해상도 이미지 합성을 한 번에 학습시키면 학습이 잘 되지 않을 수 있기에 학습을 하면서 레이어를 쌓아올려서 대칭적인 구조로 Transposed Convolution 과 Strided Convolution 을 배치하여 고해상도 이미지 합성을 성공하였다. 기존에 비해서 안정적으로 학습이 가능하지만 이미지 특징 제어가 어렵다는 단점이 있었다. 
 
-### VAE
+![PGGAN](https://blog.kakaocdn.net/dn/b9SkA5/btqGH1j2QEC/gGK58wziKZVpCibKfvKC4k/img.png)
 
-VAE는 AE를 진화시킨 버젼이라고 볼 수 있다. AE의 Bottle Neck 부분을 진화시켜서 바로 잠재 벡터화하는 것이 아니라 인코더의 각 입력을 평균 벡터와 분산 벡터로 매핑하는 과정을 거친다. 논문의 저자들은 이 두 벡터를 Reparameterization Trick을 사용하여 Backpropagation 할 수 있도록 했다고 한다. 
+## StyleGAN: A Style-Based Generator Architecture for Generative Adversarial Networks
 
-![vae](https://gaussian37.github.io/assets/img/dl/concept/vae/0.png)
+> 고화질 이미지 생성에 적합한 최적의 아키텍처를 제안!
 
-![vae_loss](https://velog.velcdn.com/images/tobigs1617/post/e0486aee-7f50-469f-a6ec-2f45a0d285ea/image.png)
+### StyleGAN의 의의
 
+- PGGAN 베이스라인 아키텍처 성능 향상 
+- Disentaglement 특성 향상 
+  
+<strong>Disentanglement VS Entanglement</strong>
+
+Entanglement 하다는 것은 여러 feature가 합쳐져 있어서 한 특성만 컨트롤하기 어렵다는 것을 의미한다. Disentanglement 하다는 것은 반대로 Semantic Feature을 control 할 수 있다는 것이다. 
+=> Vector 연산처럼 두 이미지의 Latent Vector의 연산으로 두 이미지의 Feature을 합칠 수 있다는!
+
+### StyleGAN's Key IDEA: Mapping Network
+
+![mapping_network](https://blog.promedius.ai/content/images/2020/11/image-4.png)
+
+(a)는 우리가 훈련시킬 때 사용하는 데이터셋의 Distribution이고 (b)는 Gaussian Distribution을 토대로 생성된 latent $Z$ 벡터, (c)는 Mapping 된 $W$ 벡터이다. Vanilla GAN과 같은 이전의 GAN 모델들은 latent vector을 바로 synthesis network에 사용했다. 하지만 이렇게 되면 feature 들이 entanglement 해진다는 문제가 발생한다. 정규분포를 사용하여 생성된 분포는 데이터셋의 분포와는 다르고 한 feature을 조정하려고 하다가 의도치 않게 다른 feature까지 조정되는 문제가 생긴다. StyleGAN 연구진들은 Gaussian Distribution을 FC 레이어를 통해서 Mapping하여 Interpolation 작업이 수월하도록 한 것이다. 
+
+=> The features of variation become more linear!
+
+### AdaIN (Adaptive Instance Normalization)
+
+AdaIN을 사용하면 이 레이어를 거칠 때마다 "다른 원하는 데이터로부터의 스타일"을 가져와서 적용할 수 있다. 
+
+- Batch Norm과 다르게 $\mu,\sigma$와 같은 학습 파라미터가 없다.
+- feed-forward style transfer 네트워크에서 사용되었다고 한다. 
+
+![adain](https://blog.kakaocdn.net/dn/LKLnD/btqG9BLAs8a/2FNMvWAPid0pUBFRIfpjJk/img.png)
+
+### Architecture
+
+continue tomorrow
 
 ### 사용사례
 
