@@ -32,15 +32,23 @@
         -   [ ] All You May Need for VQA are Image Captions
         -   [ ] CLIP: Learning Transferable Visual Models From Natural Language
 
-    -   Image
+    -   Generative Models
 
-        -   [x] Generative Adversarial Nets (GAN)
-
-        -   [ ] Analyzing and Improving the Image Quality of StyleGAN
-        -   [ ] StyleGAN2 Distillation for Feed-forward Image Manipulation
-        -   [ ] StyleCariGAN: Caricature Generation via StyleGAN Feature Map Modulation
-
-        -   [ ] Pixel Recurrent Neural Networks (PixelRNN)
+        - GAN
+          -   [x] Generative Adversarial Nets (GAN)
+          -   [ ] Conditional GAN
+          -   [ ] Cycle GAN
+          -   [ ] DCGAN
+          -   [ ] PGGAN
+          -   [x] StyleGAN
+          -   [ ] StyleGANv2
+          -   [ ] SinGAN
+          -   [ ] StyleCLIP
+          -   [ ] StarGAN
+          -   [ ] Resolution Dependent GAN Interpolation for Controllable Image Synthesis Between Domains
+          -   [ ] Analyzing and Improving the Image Quality of StyleGAN
+          -   [ ] StyleGAN2 Distillation for Feed-forward Image Manipulation
+          -   [ ] StyleCariGAN: Caricature Generation via StyleGAN Feature Map Modulation
 
         -   [x] Auto-Encoding Variational Bayes (VAE)
         -   [ ] Disentangling Variational Autoencoders
@@ -49,9 +57,13 @@
         -   [ ] Zero-Shot Text-to-Image Generation (DallE-1)
         -   [ ] Hierarchical Text-Conditional Image Generation with CLIP Latents (DallE-2)
 
-        -   [ ] Denoising Diffusion Probabilistic Model (Diffusion Model)
-        -   [ ] Diffusion Models Beat GANs on Image Synthesis (Advanced Diffusion Model)
-        -   [ ] Imagic: Text-Based Real Image Editing with Diffusion Models
+        -   [ ] Pixel Recurrent Neural Networks (PixelRNN)
+        -   [ ] 
+        - Diffusion Model
+
+            -   [ ] Denoising Diffusion Probabilistic Model (Diffusion Model)
+            -   [ ] Diffusion Models Beat GANs on Image Synthesis (Advanced Diffusion Model)
+            -   [ ] Imagic: Text-Based Real Image Editing with Diffusion Models
 
 -   To Study Again
     -   [x] CNN
@@ -61,3 +73,4 @@
     -   [x] Embedding
     -   [x] Regularization
     -   [x] Optimization
+    -   [ ] CRN

@@ -13,7 +13,6 @@
     - [학습과정](#학습과정)
     - [Loss Function Formula](#loss-function-formula)
     - [한계점](#한계점)
-    - [더 공부할 것](#더-공부할-것)
     - [IS (Inception Score)](#is-inception-score)
     - [FID (Frechet Inception Distance)](#fid-frechet-inception-distance)
   - [Conditional GAN](#conditional-gan)
@@ -121,20 +120,12 @@ GAN은 기술적으로 고해상도 이미지를 생성할 수 없다는 점과 
 
 -   악용가능성, 지식 재산권 이슈 등
 
-### 더 공부할 것
-
-DCGAN, CycleGAN 등 추가 공부가 필요하다....
-
--   DCGAN CNN 레이어로 고화질의 이미지를 생성할 수 있다.
--   CGAN 이미지를 다른 이미지로 변환할 수 있다.
 
 ### IS (Inception Score)
 
 Inception Score는 GAN의 평가에 널리 쓰이는 지표이다. 이 지표는 클래스 label과 관련하여 특징적인 속성들을 잡아내기 위해 Pre-trained 신경망을 사용한다.
 
 샘플의 조건부 분포와 모든 샘플에서 얻은 주변분포 사이의 평균적인 KL 발산 정도를 측정하는 것이다. 이 값이 높을수록 좋은 성능을 낸다고 해석할 수 있다.
-
-![is](https://github.com/Pseudo-Lab/Tutorial-Book/blob/master/book/pics/GAN-ch1img08.png?raw=true)
 
 ### FID (Frechet Inception Distance)
 
