@@ -8,6 +8,7 @@
   - [Variational AutoEncoder](#variational-autoencoder)
     - [Autoencoder](#autoencoder)
     - [VAE](#vae)
+    - [사용사례](#사용사례)
   - [Generative Adversarial Nets](#generative-adversarial-nets)
     - [학습과정](#학습과정)
     - [Loss Function Formula](#loss-function-formula)
@@ -23,8 +24,7 @@
     - [StyleGAN의 의의](#stylegan의-의의)
     - [StyleGAN's Key IDEA: Mapping Network](#stylegans-key-idea-mapping-network)
     - [AdaIN (Adaptive Instance Normalization)](#adain-adaptive-instance-normalization)
-    - [Architecture](#architecture)
-    - [사용사례](#사용사례)
+    - [StyleGAN's Architecture](#stylegans-architecture)
 
 ---
 
@@ -67,6 +67,14 @@ VAE는 AE를 진화시킨 버젼이라고 볼 수 있다. AE의 Bottle Neck 부�
 ![vae](https://gaussian37.github.io/assets/img/dl/concept/vae/0.png)
 
 ![vae_loss](https://velog.velcdn.com/images/tobigs1617/post/e0486aee-7f50-469f-a6ec-2f45a0d285ea/image.png)
+
+
+### 사용사례
+
+- 구글이 이미지를 VAE로 디코딩하여 이미지 용량을 줄여 밴드위치를 줄였다고 한다.
+- Image Segmentation 기법에 활용될 수 있다. (자율주행차)
+- Noisy Image를 재구성해서 Denoise 작업을 수행할 수 있다.
+- Neural Inpainting으로 이미지를 복원할 수 있다. (워터마크 없애기)
 
 
 ## Generative Adversarial Nets
@@ -177,7 +185,9 @@ PGGAN은 학습 과정에서 레이어를 추가한다는 새로운 아이디어
   
 <strong>Disentanglement VS Entanglement</strong>
 
-Entanglement 하다는 것은 여러 feature가 합쳐져 있어서 한 특성만 컨트롤하기 어렵다는 것을 의미한다. Disentanglement 하다는 것은 반대로 Semantic Feature을 control 할 수 있다는 것이다. 
+- Entanglement 하다는 것은 여러 feature가 합쳐져 있어서 한 특성만 컨트롤하기 어렵다는 것을 의미한다. 
+- Disentanglement 하다는 것은 반대로 Semantic Feature을 control 할 수 있다는 것이다. 
+  
 => Vector 연산처럼 두 이미지의 Latent Vector의 연산으로 두 이미지의 Feature을 합칠 수 있다는!
 
 ### StyleGAN's Key IDEA: Mapping Network
@@ -197,13 +207,34 @@ AdaIN을 사용하면 이 레이어를 거칠 때마다 "다른 원하는 데이
 
 ![adain](https://blog.kakaocdn.net/dn/LKLnD/btqG9BLAs8a/2FNMvWAPid0pUBFRIfpjJk/img.png)
 
-### Architecture
 
-continue tomorrow
+### StyleGAN's Architecture
 
-### 사용사례
+![stylegan_architecture](https://miro.medium.com/max/750/0*nzmrf7VMLsTWt8SX)
 
-- 구글이 이미지를 VAE로 디코딩하여 이미지 용량을 줄여 밴드위치를 줄였다고 한다.
-- Image Segmentation 기법에 활용될 수 있다. (자율주행차)
-- Noisy Image를 재구성해서 Denoise 작업을 수행할 수 있다.
-- Neural Inpainting으로 이미지를 복원할 수 있다. (워터마크 없애기)
+기존의 PGGAN은 (a)와 같은 네트워크 구조를 사용하고 StyleGAN은 (b)와 같은 새로운 네트워크 구조를 사용했다. 가장 큰 차이점은 바로 Latent $z$ 벡터를 Mapping Network를 지나서 $w$ 벡터를 만들고 이를 AdaIN 레이어 입력 값으로 사용하여 레이어를 지나면서 이미지를 점점 Upsample하는 과정에서 스타일이 적용될 수 있도록 하는 것이다. AdaIN 레이어를 사용하기 때문에 Synthesis 네트워크에서 바로 잠재 벡터를 입력하는 것이 아니라 $const 4*4*512$를 사용하는 특징이 있다. 
+
+오른쪽을 보면 Noise라고 해서 AdaIN Layer 전에 어떤 값을 입력하는 것을 볼 수 있다. 이 Noise를 추가하는 이유는 StyleGAN 연구자들의 결과에 따르면 잠재벡터를 통해서 만들어진 $w$ 벡터는 high-level global attributes 즉 얼굴형, 포즈, 안경의 유무와 같은 이미지의 전반적인 것을 결정한다고 한다. 여기에 Noise 벡터를 추가로 입력해주면 주근께, 피부 모공과 같은 stochastic variation을 실현할 수 있었다고 한다. stochastic variation이란 이미지에 영향을 주지 않고 randomized 가능한 값으로 이미지의 세밀한 정보라고 생각해도 좋을 것 같다. 이를 통해서 이미지를 좀 더 사실적이고 진짜처럼 구성할 수 있었다고 한다.
+
+여러 AdaIN 레이어에 스타일 정보를 줄 때 레이어의 깊이에 따라서 Coarse Style, Middle Style, Fine Style와 같이 영향을 미치는 정도가 달라진다고 한다. 앞부분 레이어일수록 이미지의 전반적인 디자인에 영향을 주고 점점 지날수록 이미지 세부적인 정보를 수정할 수 있다고 한다. 이 점을 통해서 전반적인 이미지의 형태를 유지하면서 다른 이미지의 특징을 합치는 마치 벡터와의 연산같은 Manipulation을 수행할 수 있었다고 한다. 
+
+<strong>TL;DR</strong>
+
+- Use Mapping Network to map latent vector $z$ to vector $w$
+- Use AdaIN Layer to apply latent $w$ style features.
+- Use Const input not latent vector input
+- Use Noise vector for stochastic variation
+
+
+
+![adain_layer](https://miro.medium.com/max/640/0*0MnUXJStHJb9D6m9)
+
+<strong>AdaIN Layer 과정</strong>
+
+1. Vector $w$를 아핀변환을 통해서 $y_{s, i}, y_{b, i}$를 구성한다. 
+2. Conv Layer을 통과하여 나온 값을 Normalize Channel을 통과시켜서 정규화시킨다. 
+3. Scale and Bias channel을 곱하고 더해준다.
+
+<strong>Conclusion of StyleGAN</strong>
+
+**StyleGAN 생성자는 더욱 Linear하면 덜 Entangled 되어 있다.**
