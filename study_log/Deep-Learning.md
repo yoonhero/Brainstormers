@@ -20,7 +20,7 @@
     - [Adam (Adaptive Moment Estimation)](#adam-adaptive-moment-estimation)
   - [Activation](#activation)
     - [ReLU](#relu)
-  - [Trainig Refinements](#trainig-refinements)
+  - [Training Refinements](#training-refinements)
     - [Mixup Training](#mixup-training)
     - [Label Smoothing](#label-smoothing)
   - [Reference](#reference)
@@ -246,7 +246,7 @@ RMSProp은 Adagrad에서의 단점을 해결하기 위해서 지수 이동평균
 - 비선형 함수를 활성화 함수로 이용하는 이유는 선형함수를 사용할 시 층을 깊게 하는 의미가 줄어들기 때문이다. 뉴럴 네트워크에서 층을 쌓는 효과를 얻고 싶다면 반드시 비선형 함수를 사용해야 한다.
 - 비선형성이 증가한다는 것은 그만큼 복잡한 패턴을 좀 더 잘 인식할 수 있게 된다는 의미이다.!
 
-## Trainig Refinements
+## Training Refinements
 
 ### Mixup Training
 

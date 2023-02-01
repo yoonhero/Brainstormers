@@ -16,6 +16,12 @@
     - [IS (Inception Score)](#is-inception-score)
     - [FID (Frechet Inception Distance)](#fid-frechet-inception-distance)
   - [Conditional GAN](#conditional-gan)
+  - [Pix2Pix](#pix2pix)
+  - [CycleGAN](#cyclegan)
+    - [CycleGAN의 발단](#cyclegan의-발단)
+    - [CycleGAN's Key POINTS](#cyclegans-key-points)
+    - [CycleGAN 구현](#cyclegan-구현)
+    - [CycleGAN's drawbacks](#cyclegans-drawbacks)
   - [DCGAN](#dcgan)
   - [WGAN-GP](#wgan-gp)
   - [PGGAN: Progressive Growing of GANs](#pggan-progressive-growing-of-gans)
@@ -142,6 +148,70 @@ CGAN은 학습과정 중에
 -   G는 training dataset의 label에 대응하는 실제적인 샘플을 만드는 과정을 학습한다.
 -   D는 label이 주어진 상태에서 real, fake를 구별하는 방법을 배운다.
 -   Original GAN과 거의 유사하지만 auxiliary information이 추가될 뿐이다.
+
+
+## Pix2Pix
+
+> 입력 이미지를 다른 이미지로 수정하는 방법을 제시!
+
+Pix2Pix 모델은 이미지 자체를 Condition으로 받는 CGAN의 한 유형으로 label을 Condition으로 받는 Original CGAN과는 다르다. Pix2Pix의 의미는 픽셀들을 입력으로 받아서 픽셀들을 예측한다는 의미이다. 
+
+![pix2pix_l1loss](https://miro.medium.com/max/1400/1*6DQtRsikcXBbSbr3txo1Vw.png)
+
+Pix2Pix 모델에서는 일반적인 GAN모델과 같은 $L_{GAN}$을 사용하여 데이터셋 분포와 유사한 데이터를 구축하는 것을 학습한다. 여기에 추가적으로 $L_{L1}$을 사용한다. 이 목적 함수는 실제 정답과 유사한 이미지를 생성할 수 있도록 G에서 생성한 이미지가 데이터셋에 있는 실제 목표 이미지와 L1 Normalization을 사용한다. 연구진들은 L2 Normalization을 사용하면 이미지가 흐려진다는 문제가 있어서 L1 Normalization을 적용했다고 한다. 
+
+<strong>Pix2Pix Problems</strong>
+
+- Paired 된 데이터셋을 구축해야 학습을 진행할 수 있다.
+- 데이터셋에 없는 이미지를 재구성하는 성능이 좋지 않다.
+
+> CycleGAN 등장!
+
+
+## CycleGAN
+
+<strong>Unpaired Image-to-Image Translation Using Cycle Consistent Adversial Network</strong>
+
+위 논문은 쌍을 이루지 않는 데이터셋으로 학습이 가능한 method를 제안하고 cycle-consistent loss를 제안해서 다양한 task에서 좋은 성능을 보인 성과가 있다. 
+
+### CycleGAN의 발단
+
+> Pix2Pix에서 paired 된 데이터셋을 사용하는 것이 아니라 $p_y$에서 이미지를 랜덤적으로 뽑아서 학습을 진행할 수는 없을까? 
+
+원래 GAN 함수의 목적 함수만을 사용해서 학습을 진행한다면 $image_x$의 content를 유지하면서 translation을 진행하는 것이 아니라 그냥 Discriminator에게 진짜처럼 보일 수 있는 랜덤적인 이미지를 생성할 것이다. 이 문제를 해결하기 위해서 CycleGAN에서는 constraint condition을 두어서 잘 학습될 수 있도록 한다.
+
+### CycleGAN's Key POINTS
+
+![cyclegan](https://blog.kakaocdn.net/dn/cW8ZH4/btq7jyw86Ca/03uq2PUfETkAghMojSIssk/img.png)
+
+![cyclegan_](https://www.tensorflow.org/static/tutorials/generative/images/cycle_loss.png)
+
+위 그림을 보면 전반적인 구현 방식을 이해할 수 있다. CycleGAN에서는 특이하게 $G(X)$와 $F(Y)$ 두 개의 변환기가 있는 것을 볼 수 있다. 이것은 수학적으로 비유하면 "역함수"라고 할 수도 있다. $G(x)$가 생성한 $Y$를 $F(Y)$의 input으로 넣어서 원래 이미지로 복원하는 과정도 학습함으로서 원본 이미지의 content를 담고 있으면서 unpaired 데이터셋에서 학습이 가능하도록 한 것이다. 결론적으로 $F(Y)$의 목표는 $G(X)$로 생성된 이미지를 원본과 유사하도록 재구성하는 것이고 $G(X)$의 목표는 $F(Y)$로 생성된 이미지를 목표 이미지와 유사하게 재구성하는 것이다. 
+
+![cyclegan_function](https://i.imgur.com/OurehZ5.png)
+
+결론적으로 CycleGAN을 훈련시킬 때는 GAN Loss와 Cycle-consistent Loss를 사용하여 학습을 진행한다. 각 함수의 목적은 위와 같다.
+
+- $L_{GAN}$: target domain에 있음직한 이미지를 생성하자 
+- $L_{cyc}$: 입력과 매칭되는 image-to-image translation 결과의 이미지를 찾을 수 있도록 이미지를 생성하자 
+
+![cyclegan_identity](https://velog.velcdn.com/images%2Fmink555%2Fpost%2F6401fa09-9739-4e09-8681-092e10e7703f%2F7.png)
+
+=> 색상 구성을 보존해야 된다면 identity loss를 추가적으로 이용하면 된다! 
+
+### CycleGAN 구현
+
+- Network Architecture
+  - Residual block을 활용하는 아키텍처 및 instance normalization을 사용한다.
+  - 이미지 내 패치 단위로 진위 여부를 판별하는 판별자를 사용한다.
+- Training Method
+  - Least-squared Loss: 기존의 CGAN에서 사용된 cross-entropy loss를 사용하는 것이 아닌 MSE Loss와 유사한 Loss function을 사용했다. 최근에는 WGAN-GP라는 더 진보된 Loss function을 사용한다고 한다.
+  - Replay Buffer: 생성자가 만든 50개의 이미지를 저장하고 이를 판별자 업데이트 할 때 사용하여 학습 과정의 oscillation(불안정성)을 개선했다고 한다. 
+
+### CycleGAN's drawbacks
+
+1. 모양 정보를 포함한 content 변경은 어렵다.
+2. 학습 데이터에 포함되지 않은 사물을 처리하기 어렵다.
 
 ## DCGAN
 
