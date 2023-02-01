@@ -143,7 +143,6 @@ UCI에서 진행한 사람의 움직임을 자이로 센서로 9 채널로 입�
 - output-shape 은 2차원 행렬이 된다.
 - example) computer vision, edge detection algorithm, Sobel Edge Filter
 
-![2d Convolution with 3D input]
 
 2D Convolutions with 3D input - LeNet VGG ...
 

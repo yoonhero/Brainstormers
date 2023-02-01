@@ -20,6 +20,9 @@
     - [Adam (Adaptive Moment Estimation)](#adam-adaptive-moment-estimation)
   - [Activation](#activation)
     - [ReLU](#relu)
+  - [Trainig Refinements](#trainig-refinements)
+    - [Mixup Training](#mixup-training)
+    - [Label Smoothing](#label-smoothing)
   - [Reference](#reference)
 
 ---
@@ -243,7 +246,27 @@ RMSProp은 Adagrad에서의 단점을 해결하기 위해서 지수 이동평균
 - 비선형 함수를 활성화 함수로 이용하는 이유는 선형함수를 사용할 시 층을 깊게 하는 의미가 줄어들기 때문이다. 뉴럴 네트워크에서 층을 쌓는 효과를 얻고 싶다면 반드시 비선형 함수를 사용해야 한다.
 - 비선형성이 증가한다는 것은 그만큼 복잡한 패턴을 좀 더 잘 인식할 수 있게 된다는 의미이다.!
 
+## Trainig Refinements
 
+### Mixup Training
+
+학습을 진행할 때 랜덤하게 두 개의 샘플 $(x_i, y_i)$와 $(x_j, y_j)$를 뽑아서 $(\widehat{x}, \widehat{y})$를 만들어서 학습에 사용한다. 
+
+$\hat{x} = \lambda x_i + (1-\lambda) x_j$
+
+$\hat{y} = \lambda y_i + (1-\lambda) y_j$
+
+$\lambda \in [0, 1]$
+
+![mixup_training](https://crazyoscarchang.github.io/images/2020-09-27-revisiting-mixup/classical_mixup.png)
+
+### Label Smoothing
+
+정답 클래스에 대해서 완전히 confident하게 1의 값을 부여하는 것이 아니라 나머지 라벨에도 약간의 값을 [0.9, 0.05, 0.05]와 같이 부여해서 너무 한 클래스에 over confident하지 않도록 label smoothing 기법을 사용한다. 
+
+
+
+![label_smoothing](https://blog.kakaocdn.net/dn/uO0Hr/btqFFVzoC6h/N1cMUSyijCh6fvwBm64nh0/img.png)
 
 
 ## Reference
