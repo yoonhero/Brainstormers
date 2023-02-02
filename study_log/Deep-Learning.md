@@ -23,6 +23,8 @@
   - [Training Refinements](#training-refinements)
     - [Mixup Training](#mixup-training)
     - [Label Smoothing](#label-smoothing)
+  - [Pytorch 추가지식들](#pytorch-추가지식들)
+    - [nn.Identity()](#nnidentity)
   - [Reference](#reference)
 
 ---
@@ -268,6 +270,12 @@ $\lambda \in [0, 1]$
 
 ![label_smoothing](https://blog.kakaocdn.net/dn/uO0Hr/btqFFVzoC6h/N1cMUSyijCh6fvwBm64nh0/img.png)
 
+
+## Pytorch 추가지식들 
+
+### nn.Identity()
+
+입력과 동일한 tensor을 출력으로 내보내주는 layer.
 
 ## Reference
 
