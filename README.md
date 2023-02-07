@@ -58,9 +58,9 @@
           -   [x] Pix2Pix
           -   [x] Cycle GAN
           -   [ ] StarGAN
-          -   [ ] Pixel2Style2Pixel
-          -   [ ] DCGAN
-          -   [ ] PGGAN
+          -   [x] Pixel2Style2Pixel
+          -   [x] DCGAN
+          -   [x] PGGAN
           -   [x] StyleGAN
           -   [ ] StyleGANv2
           -   [ ] SinGAN
