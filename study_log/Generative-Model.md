@@ -30,6 +30,7 @@
     - [StyleGAN's Key IDEA: Mapping Network](#stylegans-key-idea-mapping-network)
     - [AdaIN (Adaptive Instance Normalization)](#adain-adaptive-instance-normalization)
     - [StyleGAN's Architecture](#stylegans-architecture)
+  - [Pixel2Style2Pixel](#pixel2style2pixel)
 
 ---
 
@@ -299,3 +300,8 @@ AdaIN을 사용하면 이 레이어를 거칠 때마다 "다른 원하는 데이
 <strong>Conclusion of StyleGAN</strong>
 
 **StyleGAN 생성자는 더욱 Linear하면 덜 Entangled 되어 있다.**
+
+
+## Pixel2Style2Pixel
+
+[참고](https://github.com/yoonhero/Brainstormers/blob/master/study_log/pixel2style2pixel.md)
