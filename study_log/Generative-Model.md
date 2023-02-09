@@ -230,6 +230,10 @@ Vanilla GAN 의 가장 큰 문제점이라고 한다면 바로 Linear Layer 을 
 
 > GAN의 고질병인 학습의 불안정성을 해결하는 새로운 Loss Function!
 
+
+
+
+
 ## PGGAN: Progressive Growing of GANs
 
 PGGAN은 학습 과정에서 레이어를 추가한다는 새로운 아이디어를 제시한 논문이다. 고해상도 이미지 합성을 한 번에 학습시키면 학습이 잘 되지 않을 수 있기에 학습을 하면서 레이어를 쌓아올려서 대칭적인 구조로 Transposed Convolution 과 Strided Convolution 을 배치하여 고해상도 이미지 합성을 성공하였다. 기존에 비해서 안정적으로 학습이 가능하지만 이미지 특징 제어가 어렵다는 단점이 있었다. 
