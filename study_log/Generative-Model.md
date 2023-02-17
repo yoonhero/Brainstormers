@@ -67,13 +67,20 @@ AutoEncoder은 입력데이터와 Decoder의 출력과의 손실을 최소화하
 Transposed Convolution은 input의 빨간색 원소를 3x3 kernel에 곱해서 output에 대응하는 자리에 집어넣고 같은 방법으로 다른 부분도 집어넣는다. 연산을 반복하면서 겹치는 부분의 값을 모두 더해준다.
 
 ### VAE
-
+ 
 VAE는 AE를 진화시킨 버젼이라고 볼 수 있다. AE의 Bottle Neck 부분을 진화시켜서 바로 잠재 벡터화하는 것이 아니라 인코더의 각 입력을 평균 벡터와 분산 벡터로 매핑하는 과정을 거친다. 논문의 저자들은 이 두 벡터를 Reparameterization Trick을 사용하여 Backpropagation 할 수 있도록 했다고 한다. 
 
 ![vae](https://gaussian37.github.io/assets/img/dl/concept/vae/0.png)
 
 ![vae_loss](https://velog.velcdn.com/images/tobigs1617/post/e0486aee-7f50-469f-a6ec-2f45a0d285ea/image.png)
 
+```python
+def loss_function(x, x_gen, mu, sigma):
+  BCE = nn.BCELoss(x_gen, x, reduction="sum")
+
+  # 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
+  KLD = -0.5 * torch.sum(1+sigma-mu.pow(2)-sigma.exp())
+```
 
 ### 사용사례
 
