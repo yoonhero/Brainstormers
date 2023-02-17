@@ -30,6 +30,7 @@
     - [StyleGAN's Key IDEA: Mapping Network](#stylegans-key-idea-mapping-network)
     - [AdaIN (Adaptive Instance Normalization)](#adain-adaptive-instance-normalization)
     - [StyleGAN's Architecture](#stylegans-architecture)
+    - [AdaIN](#adain)
   - [Pixel2Style2Pixel](#pixel2style2pixel)
 
 ---
@@ -298,9 +299,15 @@ AdaIN을 사용하면 이 레이어를 거칠 때마다 "다른 원하는 데이
 - Use Const input not latent vector input
 - Use Noise vector for stochastic variation
 
+### AdaIN
 
+AdaIN는 Neural Style Transfer Domain에서 제안된 빠르게 추론이 가능하면서 동시에 Arbitrary (그 때 그 때 새로운 스타일을)하게 새로운 스타일을 적용할 수 있는 방식이다.
+
+> AdaIN Layer에는 Learnable Parameter가 없다.
 
 ![adain_layer](https://miro.medium.com/max/640/0*0MnUXJStHJb9D6m9)
+
+AdaIN은 feature space 상의 평균과 분산이 Style에 영향을 끼친다면, 이들을 뽑아서 즉석으로 교환해주는 방식을 택하였다. 
 
 <strong>AdaIN Layer 과정</strong>
 
@@ -308,9 +315,13 @@ AdaIN을 사용하면 이 레이어를 거칠 때마다 "다른 원하는 데이
 2. Conv Layer을 통과하여 나온 값을 Normalize Channel을 통과시켜서 정규화시킨다. 
 3. Scale and Bias channel을 곱하고 더해준다.
 
+
+
+
 <strong>Conclusion of StyleGAN</strong>
 
-**StyleGAN 생성자는 더욱 Linear하면 덜 Entangled 되어 있다.**
+*StyleGAN 생성자는 더욱 Linear하면 덜 Entangled 되어 있다.*
+
 
 
 ## Pixel2Style2Pixel
