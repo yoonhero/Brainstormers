@@ -30,6 +30,7 @@
         -   [StyleGAN's Key IDEA: Mapping Network](#stylegans-key-idea-mapping-network)
         -   [AdaIN (Adaptive Instance Normalization)](#adain-adaptive-instance-normalization)
         -   [StyleGAN's Architecture](#stylegans-architecture)
+        -   [AdaIN](#adain)
     -   [Pixel2Style2Pixel](#pixel2style2pixel)
 
 ---
@@ -71,6 +72,14 @@ VAE는 AE를 진화시킨 버젼이라고 볼 수 있다. AE의 Bottle Neck 부�
 ![vae](https://gaussian37.github.io/assets/img/dl/concept/vae/0.png)
 
 ![vae_loss](https://velog.velcdn.com/images/tobigs1617/post/e0486aee-7f50-469f-a6ec-2f45a0d285ea/image.png)
+
+```python
+def loss_function(x, x_gen, mu, sigma):
+  BCE = nn.BCELoss(x_gen, x, reduction="sum")
+
+  # 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
+  KLD = -0.5 * torch.sum(1+sigma-mu.pow(2)-sigma.exp())
+```
 
 ### 사용사례
 
@@ -311,7 +320,15 @@ AdaIN을 사용하면 이 레이어를 거칠 때마다 "다른 원하는 데이
 -   Use Const input not latent vector input
 -   Use Noise vector for stochastic variation
 
+### AdaIN
+
+AdaIN는 Neural Style Transfer Domain에서 제안된 빠르게 추론이 가능하면서 동시에 Arbitrary (그 때 그 때 새로운 스타일을)하게 새로운 스타일을 적용할 수 있는 방식이다.
+
+> AdaIN Layer에는 Learnable Parameter가 없다.
+
 ![adain_layer](https://miro.medium.com/max/640/0*0MnUXJStHJb9D6m9)
+
+AdaIN은 feature space 상의 평균과 분산이 Style에 영향을 끼친다면, 이들을 뽑아서 즉석으로 교환해주는 방식을 택하였다.
 
 <strong>AdaIN Layer 과정</strong>
 
@@ -321,7 +338,7 @@ AdaIN을 사용하면 이 레이어를 거칠 때마다 "다른 원하는 데이
 
 <strong>Conclusion of StyleGAN</strong>
 
-**StyleGAN 생성자는 더욱 Linear하면 덜 Entangled 되어 있다.**
+_StyleGAN 생성자는 더욱 Linear하면 덜 Entangled 되어 있다._
 
 ## Pixel2Style2Pixel
 

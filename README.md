@@ -20,17 +20,27 @@
   
 
 - Vision
-  - [ ] AlexNet
-  - [ ] VGGNet
-  - [ ] GoogLeNet
-  - [ ] Fast R-CNN
-  - [ ] Rethinking the Inception Architecture for Computer Vision (Inception-v2~3) (2016)
-  - [ ] Deep Residual Learning for Image Recognition (ResNet) (2015)
-  - [ ] YOLO
-  - [ ] MobileNet
-  - [ ] Mask R-CNN
+    - Classification
+        - [x] AlexNet
+        - [x] VGGNet
+        - [x] GoogLeNet  
+        - [x] Deep Residual Learning for Image Recognition (ResNet) (2015)
+        - [ ] Rethinking the Inception Architecture for Computer Vision (Inception-v2~3) (2016)
+        - [ ] MobileNet
+        - [ ] EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks(EfficientNet) (2019)
+        - [ ] Vision Transformer
+        
+    - Object Detection
+        - [ ] R-CNN
+        - [ ] Fast R-CNN
+        - [ ] Mask R-CNN
+        - [ ] YOLO
+
+    - Segmentation
+        -   [ ] U-Net: Convolutional Networks for Biomedical Image Segmentation
+
+
   - [ ] Active Learning for CNN : A Core-set Approach (2018)
-  - [ ] EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks(EfficientNet) (2019)
   - [ ] Learning Loss for Active Learning (2019)
   -   [ ] Learning Deep Architectures for AI
   
@@ -51,6 +61,8 @@
 
     -   Generative Models
         -   [ ] Pixel Recurrent Neural Networks (PixelRNN)
+        -   [x] Auto-Encoding Variational Bayes (VAE)
+        -   [ ] Disentangling Variational Autoencoders
 
         - GAN
           -   [x] Generative Adversarial Nets (GAN)
@@ -61,6 +73,7 @@
           -   [x] Pixel2Style2Pixel
           -   [x] DCGAN
           -   [x] PGGAN
+          - [ ] WGAN-GP
           -   [x] StyleGAN
           -   [ ] StyleGANv2
           -   [ ] SinGAN
@@ -69,19 +82,18 @@
           -   [ ] Analyzing and Improving the Image Quality of StyleGAN
           -   [ ] StyleGAN2 Distillation for Feed-forward Image Manipulation
           -   [ ] StyleCariGAN: Caricature Generation via StyleGAN Feature Map Modulation
-
-        -   [x] Auto-Encoding Variational Bayes (VAE)
-        -   [ ] Disentangling Variational Autoencoders
-        -   [ ] U-Net: Convolutional Networks for Biomedical Image Segmentation
+          -   [ ] U-GAT-IT: Unsupervised Generative Attentional Networks with Adaptive Layer-Instance Normalization for Image-to-Image Translation
 
         -   [ ] Zero-Shot Text-to-Image Generation (DallE-1)
         -   [ ] Hierarchical Text-Conditional Image Generation with CLIP Latents (DallE-2)
 
         - Diffusion Model
-
+            - Latent Diffusion
             -   [ ] Denoising Diffusion Probabilistic Model (Diffusion Model)
             -   [ ] Diffusion Models Beat GANs on Image Synthesis (Advanced Diffusion Model)
+            - Stable Diffusion
             -   [ ] Imagic: Text-Based Real Image Editing with Diffusion Models
+
 
 -   To Study Again
     -   [x] CNN
@@ -91,4 +103,3 @@
     -   [x] Embedding
     -   [x] Regularization
     -   [x] Optimization
-    -   [ ] CRN

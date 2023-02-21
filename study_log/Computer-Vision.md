@@ -13,6 +13,8 @@
     - [3D Convolution](#3d-convolution)
   - [VGGNet (2014)](#vggnet-2014)
   - [GoogLeNet (2014)](#googlenet-2014)
+  - [ResNet: Deep Residual Learning for Image Recognition](#resnet-deep-residual-learning-for-image-recognition)
+    - [Residual Block 잔여블록](#residual-block-잔여블록)
   - [Reference](#reference)
 
 ---
@@ -191,6 +193,27 @@ Inception module에서 feature map을 효과적으로 추출하기 위해 1x1, 3
 **Auxiliary Classifier**
 
 네트워크의 깊이가 깊어지면 깊어질수록 vanishing gradient 문제를 피하기 어려워지는데 이 문제를 극복하기 위해서 네트워크 중간에 보조 분류기(Auxiliary Classifier)을 달아주었다.
+
+
+## ResNet: Deep Residual Learning for Image Recognition
+
+> 신경망의 깊이가 엄청나게 깊어질 수 있는 간단한 아이디어를 제시!
+
+**TLDR;**
+
+- 깊은 네트워크를 학습시키기 위해서 *Residual Learning*을 제시! 
+
+![previous](https://velog.velcdn.com/images%2Fgood159897%2Fpost%2Fd2ff36db-1f01-4de9-8c07-eb89283785aa%2FResNet%20%EC%9D%B4%EC%A0%84_2.PNG)
+
+VGG network와 Googlenet이 나오면서 신경망이 깊으면 깊을수록 성능이 올라간다는 것은 우리 눈의 시신경 세포가 100만개 정도 되는 것처럼 더 다양한 특성을 추출하고 처리할 수 있기 때문이다. 하지만 전에 제시된 방법으로는 신경망의 깊이가 깊어지면 오히려 성능이 저하되는 역효과가 일어났다. 더 깊은 신경망을 쌓을 수 있는 매우 이해하기 쉽지만 아주 중요한 아이디어를 이 논문에서 제시했다고 볼 수 있다. 
+
+### Residual Block 잔여블록
+
+![resnet](https://thebook.io/img/080263/233_2.jpg)
+
+Residual Block의 역할은 바로 Optimization의 난이도를 낮추는 것이다. 
+
+위 그림의 왼쪽 부분은 기존 방식이고 오른쪽 부분이 Resnet 논문에서 제시된 방법이다. 기존 방식에서는 $x$를 $H(x)$를 통해서 바로 특징을 추출하는 것을 학습했다면 새로운 방식에서는 $x$를 합성곱층을 표현한 $F(x)$와 더하여 학습해야하는 $H(x)$의 Optimization의 난이도를 줄일 수 있었다. 쉽게 말하면 바로 아무것도 없는 상태에서 무언가를 하기는 어려울 수 있지만 우리가 전에 쌓은 지식을 주면서 학습해 나간다면 학습이 더 수월할 수 있다는 것이다. 결론적으로 $x$ identity를 더해서 앞서 학습된 정보를 포함하면서 $F(x)$만 학습하면 Optimization의 성능이 더 좋고 수렴 속도가 빨랐다고 한다. 
 
 
 ## Reference
