@@ -2,38 +2,42 @@
 
 ## Index
 
+<!-- TOC -->
+
 -   [Generative Model](#generative-model)
     -   [Index](#index)
     -   [Generative Model Definition](#generative-model-definition)
     -   [Variational AutoEncoder](#variational-autoencoder)
         -   [Autoencoder](#autoencoder)
         -   [VAE](#vae)
-        -   [사용사례](#사용사례)
+        -   [사용사례](#%EC%82%AC%EC%9A%A9%EC%82%AC%EB%A1%80)
     -   [Generative Adversarial Nets](#generative-adversarial-nets)
-        -   [학습과정](#학습과정)
+        -   [학습과정](#%ED%95%99%EC%8A%B5%EA%B3%BC%EC%A0%95)
         -   [Loss Function Formula](#loss-function-formula)
-        -   [한계점](#한계점)
-        -   [IS (Inception Score)](#is-inception-score)
-        -   [FID (Frechet Inception Distance)](#fid-frechet-inception-distance)
+        -   [한계점](#%ED%95%9C%EA%B3%84%EC%A0%90)
+        -   [IS Inception Score](#is-inception-score)
+        -   [FID Frechet Inception Distance](#fid-frechet-inception-distance)
     -   [Conditional GAN](#conditional-gan)
     -   [Pix2Pix](#pix2pix)
     -   [CycleGAN](#cyclegan)
-        -   [CycleGAN의 발단](#cyclegan의-발단)
+        -   [CycleGAN의 발단](#cyclegan%EC%9D%98-%EB%B0%9C%EB%8B%A8)
         -   [CycleGAN's Key POINTS](#cyclegans-key-points)
-        -   [CycleGAN 구현](#cyclegan-구현)
+        -   [CycleGAN 구현](#cyclegan-%EA%B5%AC%ED%98%84)
         -   [CycleGAN's drawbacks](#cyclegans-drawbacks)
     -   [DCGAN](#dcgan)
-    -   [WGAN-GP](#wgan-gp)
+    -   [WGAN-CP and WGAN-GP](#wgan-cp-and-wgan-gp)
+        -   [WGAN](#wgan)
+        -   [Wassertain Loss](#wassertain-loss)
     -   [PGGAN: Progressive Growing of GANs](#pggan-progressive-growing-of-gans)
     -   [StyleGAN: A Style-Based Generator Architecture for Generative Adversarial Networks](#stylegan-a-style-based-generator-architecture-for-generative-adversarial-networks)
-        -   [StyleGAN의 의의](#stylegan의-의의)
+        -   [StyleGAN의 의의](#stylegan%EC%9D%98-%EC%9D%98%EC%9D%98)
         -   [StyleGAN's Key IDEA: Mapping Network](#stylegans-key-idea-mapping-network)
-        -   [AdaIN (Adaptive Instance Normalization)](#adain-adaptive-instance-normalization)
+        -   [AdaIN Adaptive Instance Normalization](#adain-adaptive-instance-normalization)
         -   [StyleGAN's Architecture](#stylegans-architecture)
         -   [AdaIN](#adain)
     -   [Pixel2Style2Pixel](#pixel2style2pixel)
 
----
+<!-- /TOC -->
 
 ## Generative Model Definition
 
@@ -263,6 +267,8 @@ WGAN에서 Discriminator은 *Critic 비평자*라고 불린다. 비평자에서�
 => WGAN-GP에서는 Batch Normalization를 사용하면 안된다. 배치정규화는 같은 배치 안의 이미지 사이에 correlation을 만들기 때문에 그레디언트 페널티 손실의 효과가 떨어진다.
 
 위와 같은 방법으로 GAN이 판별자가 갑자기 우세하도록 학습되면 생성자에게 유의미한 Gradient를 제공할 수 없어서 생성자가 학습이 잘 되지 않은 문제를 해결할 수 있었다. 결론적으로 판별자가 우세하게 학습되어도 학습이 잘 진행되었고 논문에서는 Critic을 5번 훈련시키고 Generator을 1번 훈련시키는 방법으로 학습을 진행했다고 한다.
+
+[Github Code for WGAN-GP](https://github.com/yoonhero/wgan-gp)
 
 ## PGGAN: Progressive Growing of GANs
 
