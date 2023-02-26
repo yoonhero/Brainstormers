@@ -277,6 +277,79 @@ $\lambda \in [0, 1]$
 
 입력과 동일한 tensor을 출력으로 내보내주는 layer.
 
+### torch.bmm()
+
+Weight를 하나의 샘플에 대해서 곱하는 것이 아니라 배치 단위로 행렬 곱셈을 진행할 때 사용할 수 있다. 
+
+```python
+A = [b, n, m]
+B = [b, m, p]
+
+torch.bmm(A, B) # A @ B
+```
+
+```bash
+>>> A = torch.randn((10, 3, 5))
+>>> B = torch.randn((10, 5, 10))
+>>> torch.bmm(A, B).shape
+torch.Size([10, 3, 10])
+>>> (A @ B).shape
+torch.Size([10, 3, 10])
+```
+
+
+### torch.mm()
+
+모든 배치에 대해서 동일한 연산을 수행할 때 사용한다.
+
+B를 batch 개수만큼 곱해서 bmm을 수행하는 것과 동일하다. 
+
+```python
+A @ B.repeat([b, 1, 1])
+```
+
+```bash
+>>> A = torch.ones((10, 2, 3))
+>>> B = torch.ones((3, 5))
+>>> torch.matmul(A, B).shape
+torch.Size([10, 2, 5])
+```
+
+### Transpose
+
+행렬에서는 전치라고 불리며 행렬을 뒤집는 걸로 사용되고
+ 3차원 이상의 차원에서는 .transpose()를 이용해서 순서를 바꿀 수 있다.
+
+```python
+A = [b, n, m]
+A.transpose(1, 2) # [b, m, n]
+```
+
+### VStack & HStack
+
+
+```bash
+>>> torch.vstack([A, B]).shape
+torch.Size([32, 10, 20])
+>>> torch.hstack([A, B]).shape
+torch.Size([16, 20, 20])
+>>> torch.zstack([A, B]).shape
+torch.Size([16, 10, 40])
+```
+
+### Concatenance
+
+```bash
+>>> torch.cat([A, B], 0).shape
+torch.Size([32, 10, 20])
+>>> torch.cat([A, B], 1).shape
+torch.Size([16, 20, 20])
+>>> torch.cat([A, B], 2).shape
+torch.Size([16, 10, 40])
+```
+
+
+
 ## Reference
 
 - Regularization
