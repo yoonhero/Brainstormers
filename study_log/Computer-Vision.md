@@ -3,19 +3,23 @@
 ## Index
 
 - [Computer Vision](#computer-vision)
-  - [Index](#index)
-  - [CNN (Convolution Neural Network)](#cnn-convolution-neural-network)
-    - [Convolution Layer 합성곱 층](#convolution-layer-합성곱-층)
-    - [Pooling Layer 풀링 층](#pooling-layer-풀링-층)
-    - [Flatten Layer](#flatten-layer)
-    - [1D Convolution](#1d-convolution)
-    - [2D Convolution](#2d-convolution)
-    - [3D Convolution](#3d-convolution)
-  - [VGGNet (2014)](#vggnet-2014)
-  - [GoogLeNet (2014)](#googlenet-2014)
-  - [ResNet: Deep Residual Learning for Image Recognition](#resnet-deep-residual-learning-for-image-recognition)
-    - [Residual Block 잔여블록](#residual-block-잔여블록)
-  - [Reference](#reference)
+    - [Index](#index)
+    - [CNN Convolution Neural Network](#cnn-convolution-neural-network)
+        - [Convolution Layer 합성곱 층](#convolution-layer-%ED%95%A9%EC%84%B1%EA%B3%B1-%EC%B8%B5)
+        - [Pooling Layer 풀링 층](#pooling-layer-%ED%92%80%EB%A7%81-%EC%B8%B5)
+        - [Flatten Layer](#flatten-layer)
+        - [D Convolution](#d-convolution)
+        - [D Convolution](#d-convolution)
+        - [D Convolution](#d-convolution)
+- [Image Clasification](#image-clasification)
+    - [VGGNet 2014](#vggnet-2014)
+    - [GoogLeNet 2014](#googlenet-2014)
+    - [ResNet: Deep Residual Learning for Image Recognition](#resnet-deep-residual-learning-for-image-recognition)
+        - [Residual Block 잔여블록](#residual-block-%EC%9E%94%EC%97%AC%EB%B8%94%EB%A1%9D)
+- [Object Detection](#object-detection)
+- [Instance Segmentation](#instance-segmentation)
+    - [FCN](#fcn)
+    - [Reference](#reference)
 
 ---
 
@@ -164,6 +168,10 @@ UCI에서 진행한 사람의 움직임을 자이로 센서로 9 채널로 입�
 - d < L
 - example) C3D video descriptor 
 
+# Image Clasification
+
+Classification은 전체 이미지에 대해서 하나의 결과값을 예측하는 것으로 AlexNet 이후로 여러 모델이 등장했다. 3x3 필터로 CNN 레이어를 깊게 쌓는 것을 성공한 VGG, Resdiaul Block을 활용하여 엄청나게 깊은 모델을 만들 수 있었던 ResNet 등 2010년대에 많은 모델이 이미 인간의 classification 능력을 압도하게 되었다.
+
 
 ## VGGNet (2014)
 
@@ -216,7 +224,45 @@ Residual Block의 역할은 바로 Optimization의 난이도를 낮추는 것이
 위 그림의 왼쪽 부분은 기존 방식이고 오른쪽 부분이 Resnet 논문에서 제시된 방법이다. 기존 방식에서는 $x$를 $H(x)$를 통해서 바로 특징을 추출하는 것을 학습했다면 새로운 방식에서는 $x$를 합성곱층을 표현한 $F(x)$와 더하여 학습해야하는 $H(x)$의 Optimization의 난이도를 줄일 수 있었다. 쉽게 말하면 바로 아무것도 없는 상태에서 무언가를 하기는 어려울 수 있지만 우리가 전에 쌓은 지식을 주면서 학습해 나간다면 학습이 더 수월할 수 있다는 것이다. 결론적으로 $x$ identity를 더해서 앞서 학습된 정보를 포함하면서 $F(x)$만 학습하면 Optimization의 성능이 더 좋고 수렴 속도가 빨랐다고 한다. 
 
 
-## Reference
+# Object Detection
+
+여러 사물이 어디에 위치하고 있는지 Bounding Box를 정확하게 찾는 task이다.
+
+# Instance Segmentation
+
+여러가지의 사물을 픽셀 단위로 예측하여 자율주행차, 의료용 데이터 분석등에 쓰이는 Computer Vision의 한 종류이다. 
+
+Segmentation Task는 다른 Computer Vision Task에 비해서 데이터 생성 cost가 매우 높기에 데이터셋을 구축하기 어렵다는 단점이 있다. 하지만 CNN 분류모델을 조금 변형하여 사용하기에 모델이 아주 복잡한 Object Detection에 비해서 이해하기 쉬운 장점이 있다.
+
+**Segmentation GOAL**
+
+모델이 최종적으로 (w x h x 1) segmentation cell을 출력한다. 클래스에 따라서 label을 부여하고 정답 데이터셋은 (높이 x 너비 x 클래스의 수) 와 같이 구성되어 각 픽셀마다 one hot encoding이 되어 있어서 cross entropy loss 등을 활용하여 최적화를 진행한다.
+
+
+## FCN 
+
+FCN은 기존의 VGG와 같은 신경망 구조에서 마지막 fully connected layer 대신에 1x1 conv block과 transposed convolution 연산을 사용하여 뛰어난 성능을 보였다. 기존의 fully connected layer을 사용했을 때의 문제는 이와 같다.
+
+- FC Layer을 통과하고 나면 이미지의 위치 정보가 사라지기 때문이다.
+- FC Layer는 고정된 크기의 input imageaks 받을 수 있기 때문이다.
+- FC Layer는 파라미터 개수를 너무 많이 필요로 한다.
+
+하지만 마지막 layer에서 바로 upscailing을 적용한다면 공간 정보가 작은 차원의 벡터에 압축되어 있어서 위치 정보 손실이 발생한다. 이를 해결하기 위해서 skip-connection을 사용했다. 결과적으로 skip-connection을 많이 할수록 위치 정보가 보존되어 모델의 성능이 올라가는 것을 볼 수 있었다고 한다.
+
+## U-NET
+
+> U-NET: Convolutional Networks for Biomedical Image Segmentation 읽어야 할 논문이 아직도 많구나 
+
+U-NET은 기존의 FCN를 발전시켜서 효과적으로 Segmentation을 수행할 수 있었다. 본 논문에서는 u-net architecture와 elastic deformation을 통해서 data augmentation을 효과적으로 수행한 의의가 있다.
+
+![unet](https://lmb.informatik.uni-freiburg.de/people/ronneber/u-net/u-net-architecture.png)
+
+U-NET은 보이는 것과 같이 contracting path와 expanding path로 나뉘어져 있다. 연속적인 Convolution Layer와 ReLU를 지나서 Pooling 연산을 통해서 이미지 사이즈를 줄이고 이 과정을 반복해서 마지막 Layer에서 1x1 conv 연산을 수행해서 이와 대칭적인 구조로 upsampling을 해나가고 이 과정에서 skip-connection을 통해 두 벡터를 concatenate하여 공간 정보를 보존한다. 
+
+학습할 때는 각 픽셀마다의 cross entropy 연산을 수행하며 위 논문에서는 가중치 함수라는 특별한 것을 추가하여 세포들끼리 명확하게 분리해야 한다는 점을 해결했다. 
+
+
+# Reference
 
 - CNN
 
@@ -228,3 +274,5 @@ Residual Block의 역할은 바로 Optimization의 난이도를 낮추는 것이
     - [https://statinknu.tistory.com/26](https://statinknu.tistory.com/26)
     - [https://deep-learning-study.tistory.com/389?category=963091](https://deep-learning-study.tistory.com/389?category=963091)
     - [https://deep-learning-study.tistory.com/523](https://deep-learning-study.tistory.com/523)
+
+

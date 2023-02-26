@@ -38,7 +38,8 @@
 
     -   Segmentation
 
-        -   [ ] U-Net: Convolutional Networks for Biomedical Image Segmentation
+        - [x] FCN
+        -   [x] U-Net: Convolutional Networks for Biomedical Image Segmentation
 
     -   [ ] Active Learning for CNN : A Core-set Approach (2018)
     -   [ ] Learning Loss for Active Learning (2019)
