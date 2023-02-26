@@ -2,31 +2,40 @@
 
 ## Index
 
-- [ETC...](#etc)
-  - [Index](#index)
-  - [Regularization](#regularization)
-    - [Problem](#problem)
-    - [Solution](#solution)
-    - [Change Activation Function](#change-activation-function)
-    - [Careful Initialization](#careful-initialization)
-    - [Small Learning Rate](#small-learning-rate)
-    - [Batch Normalization](#batch-normalization)
-    - [Dropout](#dropout)
-  - [Optimization](#optimization)
-    - [SGD (Stochastic Gradient Descent; 확률적 경사하강법)](#sgd-stochastic-gradient-descent-확률적-경사하강법)
-    - [Momentum](#momentum)
-    - [Adagrad](#adagrad)
-    - [RMSProp](#rmsprop)
-    - [Adam (Adaptive Moment Estimation)](#adam-adaptive-moment-estimation)
-  - [Activation](#activation)
-    - [ReLU](#relu)
-  - [Training Refinements](#training-refinements)
-    - [Mixup Training](#mixup-training)
-    - [Label Smoothing](#label-smoothing)
-  - [Pytorch 추가지식들](#pytorch-추가지식들)
-    - [nn.Identity()](#nnidentity)
-  - [Reference](#reference)
 
+<!-- TOC -->
+
+- [ETC...](#etc)
+    - [Index](#index)
+    - [Regularization](#regularization)
+        - [Problem](#problem)
+        - [Solution](#solution)
+        - [Change Activation Function](#change-activation-function)
+        - [Careful Initialization](#careful-initialization)
+        - [Small Learning Rate](#small-learning-rate)
+        - [Batch Normalization](#batch-normalization)
+        - [Dropout](#dropout)
+    - [Optimization](#optimization)
+        - [SGD](#sgd)
+        - [Momentum](#momentum)
+        - [Adagrad](#adagrad)
+        - [RMSProp](#rmsprop)
+        - [Adam Adaptive Moment Estimation](#adam-adaptive-moment-estimation)
+    - [Activation](#activation)
+        - [ReLU](#relu)
+    - [Training Refinements](#training-refinements)
+        - [Mixup Training](#mixup-training)
+        - [Label Smoothing](#label-smoothing)
+    - [Pytorch 추가지식들](#pytorch-%EC%B6%94%EA%B0%80%EC%A7%80%EC%8B%9D%EB%93%A4)
+        - [nn.Identity](#nnidentity)
+        - [torch.bmm](#torchbmm)
+        - [torch.mm](#torchmm)
+        - [Transpose](#transpose)
+        - [VStack & HStack](#vstack--hstack)
+        - [Concatenance](#concatenance)
+    - [Reference](#reference)
+
+<!-- /TOC -->
 ---
 
 
@@ -186,7 +195,9 @@ Drop-out은 어떤 특정한 설명 변수의 Feature만을 과도하게 집중�
 
 
 <a name="sgd"></a>
-### SGD (Stochastic Gradient Descent; 확률적 경사하강법)
+### SGD 
+
+(Stochastic Gradient Descent; 확률적 경사하강법)
 
 SGD는 GD와 유사하지만 전체 데이터가 아닌 미니 배치 사이즈만큼의 데이터로 경사 하강법을 실시한다는 차이가 있다. 이를 통해 학습 속도를 빠르게 할 수 있을 뿐만 아니라 메모리도 절약할 수 있다. 
 
@@ -204,6 +215,14 @@ SGD는 GD와 유사하지만 전체 데이터가 아닌 미니 배치 사이즈�
 - SGD에 비해 파라미터의 분산이 줄어들고 덜 oscillate 한다는 장점이 있고, 빠르게 수렴한다.
 - r라는 새로운 하이퍼 파라미터를 잘 설정해줘야 한다는 단점이 있다.
 
+**SGD의 문제점**
+
+1. Global Minimum이 아닌 Local Minimum에 빠질 수도 있다. 
+2. Saddle Point 문제가 있다. => 안장점은 기울기가 0이지만 극값을 가질 수 없는 지점으로 이 안장점에 빠져서 학습이 잘 되지 않을 수 있다.
+
+$v_{t} = \gamma v_{t-1} + \eta \nabla f(x_{t-1})$
+
+위 식에서 볼 수 있는 것처럼 SGD를 진행할 때는 왼쪽 식이 없지만 Momentum에서는 직전의 이동 벡터를 기억했다가 파라미터를 업데이트한다. 
 
 <a name="adagrad"></a>
 ### Adagrad
@@ -211,6 +230,7 @@ SGD는 GD와 유사하지만 전체 데이터가 아닌 미니 배치 사이즈�
 지금까지의 옵티마이저의 단점 중 하나는 학습률이 모든 파라미터와 각 cycle에 대해 일정하다는 것이다. Adagrad는 각 파라미터와 각 단계마다 학습률을 변경할 수 있다. 
 
 > 이 알고리즘의 기본적인 아이디어는 ‘지금까지 많이 변화하지 않은 변수들은 step size를 크게 하고, 지금까지 많이 변화했던 변수들은 step size를 작게 하자’ 라는 것이다. 자주 등장하거나 변화를 많이 한 변수들의 경우 optimum에 가까이 있을 확률이 높기 때문에 작은 크기로 이동하면서 세밀한 값을 조정하고, 적게 변화한 변수들은 optimum 값에 도달하기 위해서는 많이 이동해야할 확률이 높기 때문에 먼저 빠르게 loss 값을 줄이는 방향으로 이동하려는 방식이라고 생각할 수 있겠다.
+
  - 출처 : http://shuuki4.github.io/deep%20learning/2016/05/20/Gradient-Descent-Algorithm-Overview.html
 
 - 이계도 함수를 계산해야 하기 때문에 계산 비용이 많이 든다.
