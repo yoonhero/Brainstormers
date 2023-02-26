@@ -241,8 +241,4 @@ torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx, max_norm, norm_ty
 
 - max_norm: 특정 실수가 주어지고 임베딩 벡터의 norm이 이 값보다 크면 norm이 이 값에 맞추어지도록 정규화된다.
 
-
-
-
-
-## Reference
+Embedding Layer는 Word2Vec과 같이 미리 학습된 Embedding과 다르게 문맥 정보를 반영하지 않는다는 단점이 있다. Embedding Layer는 마치 FC Layer과 같이 단지 Backpropagation 과정에서 wegiths를 조정할뿐이여서 아마도(?) pre-trained된 Embedding을 사용하는 것이 성능을 더 높일 수 있을 것 같다. 

@@ -71,7 +71,7 @@
             -   [x] Conditional GAN
             -   [x] Pix2Pix
             -   [x] Cycle GAN
-            -   [ ] StarGAN
+            -   [x] StarGAN
             -   [x] Pixel2Style2Pixel
             -   [x] DCGAN
             -   [x] PGGAN

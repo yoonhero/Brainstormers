@@ -4,38 +4,39 @@
 
 <!-- TOC -->
 
--   [Generative Model](#generative-model)
-    -   [Index](#index)
-    -   [Generative Model Definition](#generative-model-definition)
-    -   [Variational AutoEncoder](#variational-autoencoder)
-        -   [Autoencoder](#autoencoder)
-        -   [VAE](#vae)
-        -   [사용사례](#%EC%82%AC%EC%9A%A9%EC%82%AC%EB%A1%80)
-    -   [Generative Adversarial Nets](#generative-adversarial-nets)
-        -   [학습과정](#%ED%95%99%EC%8A%B5%EA%B3%BC%EC%A0%95)
-        -   [Loss Function Formula](#loss-function-formula)
-        -   [한계점](#%ED%95%9C%EA%B3%84%EC%A0%90)
-        -   [IS Inception Score](#is-inception-score)
-        -   [FID Frechet Inception Distance](#fid-frechet-inception-distance)
-    -   [Conditional GAN](#conditional-gan)
-    -   [Pix2Pix](#pix2pix)
-    -   [CycleGAN](#cyclegan)
-        -   [CycleGAN의 발단](#cyclegan%EC%9D%98-%EB%B0%9C%EB%8B%A8)
-        -   [CycleGAN's Key POINTS](#cyclegans-key-points)
-        -   [CycleGAN 구현](#cyclegan-%EA%B5%AC%ED%98%84)
-        -   [CycleGAN's drawbacks](#cyclegans-drawbacks)
-    -   [DCGAN](#dcgan)
-    -   [WGAN-CP and WGAN-GP](#wgan-cp-and-wgan-gp)
-        -   [WGAN](#wgan)
-        -   [Wassertain Loss](#wassertain-loss)
-    -   [PGGAN: Progressive Growing of GANs](#pggan-progressive-growing-of-gans)
-    -   [StyleGAN: A Style-Based Generator Architecture for Generative Adversarial Networks](#stylegan-a-style-based-generator-architecture-for-generative-adversarial-networks)
-        -   [StyleGAN의 의의](#stylegan%EC%9D%98-%EC%9D%98%EC%9D%98)
-        -   [StyleGAN's Key IDEA: Mapping Network](#stylegans-key-idea-mapping-network)
-        -   [AdaIN Adaptive Instance Normalization](#adain-adaptive-instance-normalization)
-        -   [StyleGAN's Architecture](#stylegans-architecture)
-        -   [AdaIN](#adain)
-    -   [Pixel2Style2Pixel](#pixel2style2pixel)
+- [Generative Model](#generative-model)
+    - [Index](#index)
+    - [Generative Model Definition](#generative-model-definition)
+    - [Variational AutoEncoder](#variational-autoencoder)
+        - [Autoencoder](#autoencoder)
+        - [VAE](#vae)
+        - [사용사례](#%EC%82%AC%EC%9A%A9%EC%82%AC%EB%A1%80)
+    - [Generative Adversarial Nets](#generative-adversarial-nets)
+        - [학습과정](#%ED%95%99%EC%8A%B5%EA%B3%BC%EC%A0%95)
+        - [Loss Function Formula](#loss-function-formula)
+        - [한계점](#%ED%95%9C%EA%B3%84%EC%A0%90)
+        - [IS Inception Score](#is-inception-score)
+        - [FID Frechet Inception Distance](#fid-frechet-inception-distance)
+    - [Conditional GAN](#conditional-gan)
+    - [Pix2Pix](#pix2pix)
+    - [CycleGAN](#cyclegan)
+        - [CycleGAN의 발단](#cyclegan%EC%9D%98-%EB%B0%9C%EB%8B%A8)
+        - [CycleGAN's Key POINTS](#cyclegans-key-points)
+        - [CycleGAN 구현](#cyclegan-%EA%B5%AC%ED%98%84)
+        - [CycleGAN's drawbacks](#cyclegans-drawbacks)
+    - [DCGAN](#dcgan)
+    - [WGAN-CP and WGAN-GP](#wgan-cp-and-wgan-gp)
+        - [WGAN](#wgan)
+        - [Wassertain Loss](#wassertain-loss)
+    - [StarGAN](#stargan)
+    - [PGGAN: Progressive Growing of GANs](#pggan-progressive-growing-of-gans)
+    - [StyleGAN: A Style-Based Generator Architecture for Generative Adversarial Networks](#stylegan-a-style-based-generator-architecture-for-generative-adversarial-networks)
+        - [StyleGAN의 의의](#stylegan%EC%9D%98-%EC%9D%98%EC%9D%98)
+        - [StyleGAN's Key IDEA: Mapping Network](#stylegans-key-idea-mapping-network)
+        - [AdaIN Adaptive Instance Normalization](#adain-adaptive-instance-normalization)
+        - [StyleGAN's Architecture](#stylegans-architecture)
+        - [AdaIN](#adain)
+    - [Pixel2Style2Pixel](#pixel2style2pixel)
 
 <!-- /TOC -->
 
@@ -269,6 +270,15 @@ WGAN에서 Discriminator은 *Critic 비평자*라고 불린다. 비평자에서�
 위와 같은 방법으로 GAN이 판별자가 갑자기 우세하도록 학습되면 생성자에게 유의미한 Gradient를 제공할 수 없어서 생성자가 학습이 잘 되지 않은 문제를 해결할 수 있었다. 결론적으로 판별자가 우세하게 학습되어도 학습이 잘 진행되었고 논문에서는 Critic을 5번 훈련시키고 Generator을 1번 훈련시키는 방법으로 학습을 진행했다고 한다.
 
 [Github Code for WGAN-GP](https://github.com/yoonhero/wgan-gp)
+
+## StarGAN
+
+> CGAN + CycleGAN + WGAN-GP 다중 도메인을 하나의 모델로
+
+<img src="./docs/stargan.jpeg" width="80%" />
+
+말 그대로 여러 녀석을 합쳐서 만들어버렸다. 생성 모델을 시간순으로 발전 순서를 따라가면서 공부하니 세상이 정말 빠르게 발전하고 있다는 것이 너무 체감된다. 
+
 
 ## PGGAN: Progressive Growing of GANs
 
