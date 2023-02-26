@@ -13,7 +13,7 @@
 -   Brain Signal Analysis
 
     -   [ ] 합성곱 신경망을 이용한 뇌파 해석 기법
-    -   [ ] 연세대학교 뇌 관련 PPT
+    -   [x] 연세대학교 뇌 관련 PPT
     -   [ ] A Novel Bi-hemispheric Discrepancy Model for EEG Emotion Recognition
     -   [ ] EEG emotion recognition using dynamical graph convolutional neural networks
     -   [ ] Investigating critical frequency bands and channels for EEG-based emotion recognition with deep neural networks
