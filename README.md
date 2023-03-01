@@ -12,7 +12,7 @@
 
 -   Brain Signal Analysis
 
-    -   [ ] 합성곱 신경망을 이용한 뇌파 해석 기법
+    -   [x] 합성곱 신경망을 이용한 뇌파 해석 기법
     -   [x] 연세대학교 뇌 관련 PPT
     -   [ ] A Novel Bi-hemispheric Discrepancy Model for EEG Emotion Recognition
     -   [ ] EEG emotion recognition using dynamical graph convolutional neural networks
@@ -29,6 +29,7 @@
         -   [ ] MobileNet
         -   [ ] EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks(EfficientNet) (2019)
         -   [ ] Vision Transformer
+        
     -   Object Detection
 
         -   [ ] R-CNN
@@ -95,6 +96,8 @@
             -   [ ] Diffusion Models Beat GANs on Image Synthesis (Advanced Diffusion Model)
             -   Stable Diffusion
             -   [ ] Imagic: Text-Based Real Image Editing with Diffusion Models
+            - [ ] DreamBooth: Fine Tuning Text-to-Image Diffusion Models for Subject-Driven Generation
+            - [ ] LoRA: Low-Rank Adaptation of Large Language Models
 
 -   To Study Again
     -   [x] CNN

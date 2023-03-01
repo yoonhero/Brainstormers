@@ -167,6 +167,16 @@ torch.nn.BatchNorm2d(num_features)
 
 > Batch Normalization Layer 는 활성화 함수 앞에 사용한다.
 
+### Layer Norm
+
+Batch Norm vs Layer Norm 
+
+두 Normalization 모두 값들이 심하게 차이나는 정도를 줄이기 위해서 사용한다는 점은 같지만, 
+  BN은 각 feature의 평균과 분산을 구해서 batch에 있는 각 feature을 정규화하지만,
+  LN은 각 input의 feature들에 대한 평균과 분산을 구해서 batch에 있는 각 input을 정규화한다. 
+
+
+
 <a name="dropout"></a>
 ### Dropout
 
