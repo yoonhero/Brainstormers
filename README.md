@@ -8,7 +8,7 @@
     -   [ ] Brain2Image: Converting Brain Signals into Images
     -   [ ] End-to-End Deep Image Reconstruction From Human Brain Activity
     -   [ ] ThoughtViz: Visualizing Human Thoughts Using Generative Adversarial Network
-    -   [ ] Towards a Passive BCI to Induce Lucid Dream
+    -   [x] Towards a Passive BCI to Induce Lucid Dream
 
 -   Brain Signal Analysis
 
