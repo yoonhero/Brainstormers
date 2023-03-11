@@ -2,28 +2,32 @@
 
 ## Index
 
+<!-- TOC -->
+
 - [NLP](#nlp)
-  - [Index](#index)
-  - [RNN](#rnn)
-    - [First-Order System](#first-order-system)
-    - [State-Space Model as RNN](#state-space-model-as-rnn)
-    - [RNN: Problem Type](#rnn-problem-type)
-  - [LSTM \& GRU](#lstm--gru)
-    - [RNN의 문제점](#rnn의-문제점)
-    - [LSTM](#lstm)
-    - [GRU](#gru)
-    - [GRU vs LSTM](#gru-vs-lstm)
-  - [Seq2Seq](#seq2seq)
-    - [Seq2Seq 의 훈련법 - Teacher Force Training](#seq2seq-의-훈련법---teacher-force-training)
-  - [1D CNN](#1d-cnn)
-  - [Bi-LSTM](#bi-lstm)
-  - [One-hot Encoding](#one-hot-encoding)
-  - [Embedding Layer](#embedding-layer)
-    - [Word2Vec](#word2vec)
-    - [GloVe](#glove)
-    - [텍스트 임베딩](#텍스트-임베딩)
-    - [이미지 임베딩](#이미지-임베딩)
-  - [Reference](#reference)
+    - [Index](#index)
+    - [RNN](#rnn)
+        - [First-Order System](#first-order-system)
+        - [State-Space Model as RNN](#state-space-model-as-rnn)
+        - [RNN: Problem Type](#rnn-problem-type)
+    - [LSTM & GRU](#lstm--gru)
+        - [RNN의 문제점](#rnn%EC%9D%98-%EB%AC%B8%EC%A0%9C%EC%A0%90)
+        - [LSTM](#lstm)
+        - [GRU](#gru)
+        - [GRU vs LSTM](#gru-vs-lstm)
+    - [Seq2Seq](#seq2seq)
+        - [Seq2Seq 의 훈련법 - Teacher Force Training](#seq2seq-%EC%9D%98-%ED%9B%88%EB%A0%A8%EB%B2%95---teacher-force-training)
+    - [D CNN](#d-cnn)
+    - [Bi-LSTM](#bi-lstm)
+    - [One-hot Encoding](#one-hot-encoding)
+    - [Embedding Layer](#embedding-layer)
+        - [Word2Vec](#word2vec)
+        - [GloVe](#glove)
+        - [텍스트 임베딩](#%ED%85%8D%EC%8A%A4%ED%8A%B8-%EC%9E%84%EB%B2%A0%EB%94%A9)
+        - [이미지 임베딩](#%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%9E%84%EB%B2%A0%EB%94%A9)
+    - [Transformer](#transformer)
+
+<!-- /TOC -->
 
 --- 
 
@@ -242,3 +246,7 @@ torch.nn.Embedding(num_embeddings, embedding_dim, padding_idx, max_norm, norm_ty
 - max_norm: 특정 실수가 주어지고 임베딩 벡터의 norm이 이 값보다 크면 norm이 이 값에 맞추어지도록 정규화된다.
 
 Embedding Layer는 Word2Vec과 같이 미리 학습된 Embedding과 다르게 문맥 정보를 반영하지 않는다는 단점이 있다. Embedding Layer는 마치 FC Layer과 같이 단지 Backpropagation 과정에서 wegiths를 조정할뿐이여서 아마도(?) pre-trained된 Embedding을 사용하는 것이 성능을 더 높일 수 있을 것 같다. 
+
+## Transformer
+
+[transformer](./transformer.md)
