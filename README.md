@@ -28,7 +28,7 @@
         -   [ ] Rethinking the Inception Architecture for Computer Vision (Inception-v2~3) (2016)
         -   [ ] MobileNet
         -   [ ] EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks(EfficientNet) (2019)
-        -   [ ] Vision Transformer
+        -   [x] Vision Transformer
         
     -   Object Detection
 
@@ -50,9 +50,9 @@
 
     -   Text
 
-        -   [ ] Attention Is All You Need (Transformer)
-        -   [ ] Improving Language Understanding by Generative Pre-Training (GPT1)
-        -   [ ] Language Models are Unsupervised Multitask Learners (GPT2)
+        -   [x] Attention Is All You Need (Transformer)
+        -   [x] Improving Language Understanding by Generative Pre-Training (GPT1)
+        -   [x] Language Models are Unsupervised Multitask Learners (GPT2)
         -   [ ] BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding (BERT)
 
     -   Caption

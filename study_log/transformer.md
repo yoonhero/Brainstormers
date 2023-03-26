@@ -11,6 +11,7 @@
     - [Self Attention](#self-attention)
     - [Multi-Head Attention](#multi-head-attention)
     - [Masked Multi-Head Attention](#masked-multi-head-attention)
+  - [Vision Transformer](#vision-transformer)
 
 <!-- /TOC -->
 
@@ -76,3 +77,38 @@ tensor([[1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
 ```
 
 Masked Multi-Head Attention은 트랜스포머의 디코더나 GPT에서 사용되는 어텐션 기법 중 하나이다. 트랜스포머의 Self Attention을 디코더에서 사용하면 다음 단어의 확률 분포를 예측해야하는 디코더가 정답을 보면서 학습을 진행하기 때문에 학습이 잘 이루어지지 않을 수 있다. 이 문제를 해결하기 위해서 한 가지 트릭을 사용한다. 바로 예측하려는 다음 timestep의 정보를 보이지 않도록 masking하는 것이다. 선형대수적으로 접근하면 하삼각행렬에 있는 값만을 softmax를 통과했을 때 살려두기 위해서 나머지 값들을 -inf로 맞추게 된다. 이를 통해서 전 문맥만 보고 다음 단어를 예측해야하는 GPT와 같은 모델이 잘 학습될 수 있도록 할 수 있다. 
+
+
+## Vision Transformer
+
+NLP에서 SOTA의 성능을 보이던 Transformer이 Vision 분야에서도 뛰어난 성능을 보일 수 있다는 것을 보인 모델이다. CNN을 하나도 사용하지 않고 Attention만으로 엄청난 모델을 설계했다는 것에 의의가 있다. 
+
+하지만 VIT는 translation equivariance 및 locally 와 같은 CNN 고유의 inductive bias(보지 못한 입력에 대한 출력을 예측할 때 사용되는 가설)이 없기 때문에 더 많은 데이터가 필요하다고 한다. 구글은 이를 3억장의 사진에 의해서 pretrained하여 해결했다고 한다.  
+
+![vit](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FI6CZv%2Fbtq4W1uStWT%2FBBBI8YYnbCgfO8rKeZTK31%2Fimg.png)
+
+전체적인 모델의 로직은 Transformer의 엔코더와 유사하다. 여기서 주목할 점은 바로 전체 이미지를 바로 사용하는 것이 아닌 이미지를 패치단위로 나누어서 예측을 진행했다는 것이다. 
+
+트랜스포머와 마찬가지로 패치마다 Postional Embedding을 더해주고 Encoding Block을 여러번 통과하여 예측을 진행한다.
+
+```python
+class PatchEmbed(nn.Module):
+    def __init__(self, img_size, patch_size, in_chans=3, embed_dim=768):
+        super(PatchEmbed, self).__init__()
+        self.img_size = img_size
+        self.patch_size = patch_size
+        self.n_patches = (img_size // patch_size) ** 2
+
+        self.proj = nn.Conv2d(
+            in_channels=in_chans,
+            out_channels=embed_dim,
+            kernel_size=patch_size,
+            stride=patch_size,
+        )  # Embedding dim으로 변환하며 패치크기의 커널로 패치크기만큼 이동하여 이미지를 패치로 분할 할 수 있음.
+
+    def forward(self, x):
+        x = self.proj(x)  # (batch_size, embed_dim, n_patches ** 0.5, n_patches ** 0.5)
+        x = x.flatten(2)  # 세번째 차원부터 끝까지 flatten (batch_size, embed_dim, n_patches)
+        x = x.transpose(1, 2)  # (batch_size, n_patches, embed_dim)
+        return x
+```
