@@ -5,8 +5,8 @@
 -   Brain Activity to Image
 
     -   [x] Hyperrealistic neural decoding for reconstructing faces from fMRI activations via the GAN latent space
-    -   [ ] Brain2Image: Converting Brain Signals into Images
-    -   [ ] End-to-End Deep Image Reconstruction From Human Brain Activity
+    -   [x] Brain2Image: Converting Brain Signals into Images
+    -   [x] End-to-End Deep Image Reconstruction From Human Brain Activity
     -   [ ] ThoughtViz: Visualizing Human Thoughts Using Generative Adversarial Network
     -   [x] Towards a Passive BCI to Induce Lucid Dream
 
