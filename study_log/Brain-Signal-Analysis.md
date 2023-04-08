@@ -155,3 +155,46 @@ EEG는 시간 분해 신호이므로 목적과 상관없는 일시적 드래프�
     - 가우시안 랜덤 필드에서 데이터를 샘플링한다.
     - 생성된 데이터들의 공분산 행렬을 기존 데이터의 공분산 행렬과 하삼각행렬을 도입하여 생성 데이터와 기존 데이터의 공분산 행렬을 같게 한다.
     - 새로운 하삼각행렬의 원소를 구한 후 기존의 Cholesky-decomposition 방법을 이용한 가우시안 랜덤 필드를 마찬가지로 적용하여 새로운 데이터를 생성한다.
+
+# EEGNet: A Compact Convolutional Neural Network for EEG-based Brain-Computer Interfaces
+
+기존의 EEG Signal을 활용한 감정 분석 같은 Task에서는 Domain Specific하도록 EEG 데이터 중에 필요한 일부를 선택적으로 전처리하여 사용했다. 본 연구에서는 CNN 아키텍처를 활용하여 EEG 데이터를 효과적으로 분석할 수 있는 아키텍처를 제안하고 훈련된 모델을 활용하여 다양한 Task에 쓰일 수 있음을 보여서 일반화 될 수 있음을 보였다. 
+
+## Introduction
+
+일반적인 BCI 분석 과정
+
+1. Data Collection Stage
+    뇌파 데이터를 수집하는 과정이다.
+
+2. Signal Processing Stage
+    수집된 데이터를 전처리하고 정리하는 과정이다. 
+
+3. Feature Extraction Stage
+    Task를 수행하기 위한 의미있는 뇌파 데이터를 추출하는 과정이다.
+
+4. Classification Stage
+    데이터로부터 예측하는 과정이다.
+
+5. Feedback Stage
+    피드벡을 통해서 수정하는 과정이다. 
+
+이와 같은 과정을 통해서 분석을 하기 위해서는 많은 선행 지식이 필요하고 의미있는 뇌파 데이터만을 사용하면서 잠재적으로 관련이 있을 수 있는 EEG 특징이 제외될 수 있는 문제가 있다. 본 논문에서는 이런 문제를 해결했다고 한다. 또한 EEG 특징을 시각화할 수 있는 새로운 방법을 제시하여 좋은 분류 성능을 보일 수 있도록 했다고 한다. 
+
+## Materials and Methods
+
+### Data Description
+
+- Event-Related Potential (ERP) BCIs: 시간 정보 
+    특정 시간 동안 발생한 이벤트에 대한 뇌파 신호를 분석한다. 다시 말해서 ERP는 시간 자극에 대한 반응 측정하고 분석한다. 
+
+![ERP](https://www.brainlatam.com/uploads/tinymce/EEG%20ERP%20Analysis%20of%20Event-Related%20Potentials-1644866350.webp)
+
+
+- Event-Related Spectrum Perturbation (ERSP) BCIs: 주파수 정보 
+    이벤트와 관련된 주파수 변화를 분석한다. 
+
+![ERSP](https://eeglab.org/assets/images/newtimefplot1.png)
+
+
+### Classification Methods
