@@ -25,7 +25,7 @@ Machine Translation **Seq2Seq**
 
 ### Self Attention
 
-Self Attention이란 자기 자신에 대한 Attention을 말한다. 왜 이러한 방법을 사용해야할까? 기존의 RNN이나 LSTM 기반의 seq2seq machine translation의 문제점 중 하나인 단어를 생성할 때마다 모든 context를 사용하는 점을 해결하기 위해서이다. 우리가 글을 읽을 때 모든 글자에 집중해서 읽는 것은 아니다. 만약에 "어제 카페에 갔었어 거기 사람 많더라" 라는 문장이 있다고 해보자. 우리가 "갔었어"라는 단어를 읽을 때 "카페에" "어제" 이런 단어에 **선택적**집중을 한다. Transformer에서는 기존의 RNN과 같은 방식을 아예 없애고 오로지 self attention만으로 네트워크를 구성했다. 이 결과로 엄청난 성능으로 각종 분야에서 SOTA가 되었으며 Vision분야에서도 Vision Transformer가 나오는 등 2010년 후기에 나온 가장 혁명적인 아키텍처라고 할 수 있다. 
+Self Attention이란 자기 자신에 대한 Attention을 말한다. 왜 이러한 방법을 사용해야할까? 기존의 RNN이나 LSTM 기반의 seq2seq machine translation의 문제점 중 하나인 단어를 생성할 때마다 모든 context를 사용하는 점을 해결하기 위해서이다. 우리가 글을 읽을 때 모든 글자에 집중해서 읽는 것은 아니다. 만약에 "어제 카페에 갔었어 거기 사람 많더라" 라는 문장이 있다고 해보자. 우리가 "갔었어"라는 단어를 읽을 때 "카페에" "어제" 이런 단어에 **선택적**집중을 한다. Transformer에서는 기존의 RNN과 같은 방식을 아예 없애고 오로지 self attention만으로 네트워크를 구성했다. 이 결과로 엄청난 성능으로 각종 분야에서 SOTA가 되었으며 Vision분야에서도 Vision Transformer가 나오는 등 2010년 후기에 나온 가장 혁명적인 아키텍처라고 할 수 있다.
 
 - 모든 시퀀스를 볼 수 있다. (1D-CNN의 커널 사이즈 문제를 해결할 수 있었다.)
 - 멀리 있는 정보도 손실되지 않는다. (RNN의 context 소실 문제 해결할 수 있었다.)
@@ -39,9 +39,9 @@ $Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V$
 쿼리와 키를 행렬곱하고 이 값을 $\sqrt{d_k}$로 나누어주고 소프트맥스를 취해서 스코어를 구한다. 이 행렬에 밸류를 곱해서 어텐션 연산을 마친다.
 
 
-${QK^T}$을 통해서 쿼리 벡터와 키 벡터 사이의 문맥적 관계성이 녹아든 결과를 얻을 수 있다. 
+${QK^T}$을 통해서 쿼리 벡터와 키 벡터 사이의 문맥적 관계성이 녹아든 결과를 얻을 수 있다.
 
-$softmax(\frac{QK^T}{\sqrt{d_k}})$를 통해서 나온 값을 밸류 벡터와 행렬곱해서 최종적인 어텐션 스코어를 얻을 수 있다. 
+$softmax(\frac{QK^T}{\sqrt{d_k}})$를 통해서 나온 값을 밸류 벡터와 행렬곱해서 최종적인 어텐션 스코어를 얻을 수 있다.
 
 여기서 $\sqrt{d_k}$로 나누어주는 이유는 Attention Score 유사도를 구하는 방법이 3가지가 있는데, Dot Product, Scaled Dot Product, Weighted Dot Product가 있다.
 
@@ -52,8 +52,8 @@ $softmax(\frac{QK^T}{\sqrt{d_k}})$를 통해서 나온 값을 밸류 벡터와 �
 
 ### Multi-Head Attention
 
-Multi-Head Attention이란 Self Attention을 여러번 수행한 것을 가르킨다. 이는 곧 여러 헤드가 셀프 어텐션을 계산한다는 것이다. 
-여러 독자가 글을 읽으면 글에 대한 다양한 생각이 있을 수 있는 것처럼 여러 헤드가 한 sequence를 모두 독자적으로 attention을 계산함으로서 셀프 어텐션을 보완할 수 있다. 
+Multi-Head Attention이란 Self Attention을 여러번 수행한 것을 가르킨다. 이는 곧 여러 헤드가 셀프 어텐션을 계산한다는 것이다.
+여러 독자가 글을 읽으면 글에 대한 다양한 생각이 있을 수 있는 것처럼 여러 헤드가 한 sequence를 모두 독자적으로 attention을 계산함으로서 셀프 어텐션을 보완할 수 있다.
 
 
 ### Masked Multi-Head Attention
@@ -76,18 +76,18 @@ tensor([[1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
         [0.1250, 0.1250, 0.1250, 0.1250, 0.1250, 0.1250, 0.1250, 0.1250]])
 ```
 
-Masked Multi-Head Attention은 트랜스포머의 디코더나 GPT에서 사용되는 어텐션 기법 중 하나이다. 트랜스포머의 Self Attention을 디코더에서 사용하면 다음 단어의 확률 분포를 예측해야하는 디코더가 정답을 보면서 학습을 진행하기 때문에 학습이 잘 이루어지지 않을 수 있다. 이 문제를 해결하기 위해서 한 가지 트릭을 사용한다. 바로 예측하려는 다음 timestep의 정보를 보이지 않도록 masking하는 것이다. 선형대수적으로 접근하면 하삼각행렬에 있는 값만을 softmax를 통과했을 때 살려두기 위해서 나머지 값들을 -inf로 맞추게 된다. 이를 통해서 전 문맥만 보고 다음 단어를 예측해야하는 GPT와 같은 모델이 잘 학습될 수 있도록 할 수 있다. 
+Masked Multi-Head Attention은 트랜스포머의 디코더나 GPT에서 사용되는 어텐션 기법 중 하나이다. 트랜스포머의 Self Attention을 디코더에서 사용하면 다음 단어의 확률 분포를 예측해야하는 디코더가 정답을 보면서 학습을 진행하기 때문에 학습이 잘 이루어지지 않을 수 있다. 이 문제를 해결하기 위해서 한 가지 트릭을 사용한다. 바로 예측하려는 다음 timestep의 정보를 보이지 않도록 masking하는 것이다. 선형대수적으로 접근하면 하삼각행렬에 있는 값만을 softmax를 통과했을 때 살려두기 위해서 나머지 값들을 -inf로 맞추게 된다. 이를 통해서 전 문맥만 보고 다음 단어를 예측해야하는 GPT와 같은 모델이 잘 학습될 수 있도록 할 수 있다.
 
 
 ## Vision Transformer
 
-NLP에서 SOTA의 성능을 보이던 Transformer이 Vision 분야에서도 뛰어난 성능을 보일 수 있다는 것을 보인 모델이다. CNN을 하나도 사용하지 않고 Attention만으로 엄청난 모델을 설계했다는 것에 의의가 있다. 
+NLP에서 SOTA의 성능을 보이던 Transformer이 Vision 분야에서도 뛰어난 성능을 보일 수 있다는 것을 보인 모델이다. CNN을 하나도 사용하지 않고 Attention만으로 엄청난 모델을 설계했다는 것에 의의가 있다.
 
-하지만 VIT는 translation equivariance 및 locally 와 같은 CNN 고유의 inductive bias(보지 못한 입력에 대한 출력을 예측할 때 사용되는 가설)이 없기 때문에 더 많은 데이터가 필요하다고 한다. 구글은 이를 3억장의 사진에 의해서 pretrained하여 해결했다고 한다.  
+하지만 VIT는 translation equivariance 및 locally 와 같은 CNN 고유의 inductive bias(보지 못한 입력에 대한 출력을 예측할 때 사용되는 가설)이 없기 때문에 더 많은 데이터가 필요하다고 한다. 구글은 이를 3억장의 사진에 의해서 pretrained하여 해결했다고 한다.
 
 ![vit](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FI6CZv%2Fbtq4W1uStWT%2FBBBI8YYnbCgfO8rKeZTK31%2Fimg.png)
 
-전체적인 모델의 로직은 Transformer의 엔코더와 유사하다. 여기서 주목할 점은 바로 전체 이미지를 바로 사용하는 것이 아닌 이미지를 패치단위로 나누어서 예측을 진행했다는 것이다. 
+전체적인 모델의 로직은 Transformer의 엔코더와 유사하다. 여기서 주목할 점은 바로 전체 이미지를 바로 사용하는 것이 아닌 이미지를 패치단위로 나누어서 예측을 진행했다는 것이다.
 
 트랜스포머와 마찬가지로 패치마다 Postional Embedding을 더해주고 Encoding Block을 여러번 통과하여 예측을 진행한다.
 
@@ -112,3 +112,22 @@ class PatchEmbed(nn.Module):
         x = x.transpose(1, 2)  # (batch_size, n_patches, embed_dim)
         return x
 ```
+
+
+## ELECTRA
+
+>> ELECTRA (Efficiently Learning an Encoder that Classifies Token Replacements Accurately)
+
+기존의 BERT 모델은 입력 중 일부를 [MASK] 토큰으로 치환하고 이를 복원하는 형태로 학습을 진행했다. 하지만 이런 모델을 훈련시키기 위해서는 너무나도 많은 컴퓨팅 자원이 필요하다. 그래서 본 연구진은 RTD(Replaced Token Detection)이라는 새로운 사전 학습법을 제안해서 보다 빠르고 정확한 모델을 개발할 수 있었다.
+
+**RTD**
+
+- 1. MASK된 토큰 부분을 Generator가 바꾼다.
+- 2. Discriminator이 Generator가 바꾼 부분인지 판단한다. Replaced or Original 이진분류를 학습한다.
+- 3. 이렇게 학습을 진행해 나간다!
+
+판별자와 생성자 모두 트랜스포머 인코더 구조를 사용한다.
+
+**Weight Sharing**
+
+Discriminator와 Generator 모두 트랜스포머 구조를 활용했다. 실험자는 임베딩의 가중치를 공유할 때와 전체 가중치를 공유할 때의 성능을 비교했다. 실험 결과 전체 가중치를 공유할 때의 성능이 가장 뛰어났다. 이는 바로 Discriminator은 학습시에 들어오는 입력에 대해서만 학습을 진행하지만 Generator는 들어온 입력에 대해서 출력을 하면서 Softmax를 취할 때 전체의 의미를 함축해서 학습을 진행할 수 있기 때문이다.

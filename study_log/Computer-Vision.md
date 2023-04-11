@@ -223,6 +223,17 @@ Residual Block의 역할은 바로 Optimization의 난이도를 낮추는 것이
 
 위 그림의 왼쪽 부분은 기존 방식이고 오른쪽 부분이 Resnet 논문에서 제시된 방법이다. 기존 방식에서는 $x$를 $H(x)$를 통해서 바로 특징을 추출하는 것을 학습했다면 새로운 방식에서는 $x$를 합성곱층을 표현한 $F(x)$와 더하여 학습해야하는 $H(x)$의 Optimization의 난이도를 줄일 수 있었다. 쉽게 말하면 바로 아무것도 없는 상태에서 무언가를 하기는 어려울 수 있지만 우리가 전에 쌓은 지식을 주면서 학습해 나간다면 학습이 더 수월할 수 있다는 것이다. 결론적으로 $x$ identity를 더해서 앞서 학습된 정보를 포함하면서 $F(x)$만 학습하면 Optimization의 성능이 더 좋고 수렴 속도가 빨랐다고 한다. 
 
+## Reversible Residual Network
+
+> Residual Block에서의 역전파 과정의 속도를 향상시켰다!
+
+![revnet](https://miro.medium.com/v2/resize:fit:1400/0*DhfmRoiOrEPEbCyW)
+
+$y_1 = x_1 + F(x_2)$
+
+$x_1 = y_1 - F(x_2)$
+
+역전파 과정에서 활성화 함수에 대한 역전파 과정을 진행하는 것이 아니라 저장된 입력값과 출력값을 활용하여 메모리를 효율적으로 사용하면서 역전파 과정을 진행한다.
 
 # Object Detection
 
