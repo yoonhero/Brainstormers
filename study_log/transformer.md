@@ -131,3 +131,14 @@ class PatchEmbed(nn.Module):
 **Weight Sharing**
 
 Discriminator와 Generator 모두 트랜스포머 구조를 활용했다. 실험자는 임베딩의 가중치를 공유할 때와 전체 가중치를 공유할 때의 성능을 비교했다. 실험 결과 전체 가중치를 공유할 때의 성능이 가장 뛰어났다. 이는 바로 Discriminator은 학습시에 들어오는 입력에 대해서만 학습을 진행하지만 Generator는 들어온 입력에 대해서 출력을 하면서 Softmax를 취할 때 전체의 의미를 함축해서 학습을 진행할 수 있기 때문이다.
+
+
+**Smaller Generators**
+
+ELECTRA에서는 BERT와 유사한 크기의 트랜스포머 2개를 사용하기에 단순 계산만으로도 2배의 컴퓨팅 자원이 필요하다는 것을 알 수 있다. 이는 너무 많은 컴퓨팅 자원을 필요로 하기에 Smaller Generator을 실험해봤고 좋은 결과를 얻을 수 있었다고 한다. Discriminator과 Generator의 크기가 유사하면 Discriminator가 너무 강력해져서 Discriminator을 훈련시키기 어려울 수 있다고 한다. 또 판별자가 실제 데이터의 분포가 아닌 generator을 모델링하는 데에 사용될 수 있다고 한다.
+
+**Maximum Likelihood & Adversarial Traning**
+
+Maximum likelihood aims to accomplish to lower negative log loss by backpropagation. We can use maximum likelihood objective function when we try to maximize the likelihood generating data such as image classifcation. But adversarial traning aims to lower the combination loss and the adversarial loss. This training method was introduced in the well-known paper "GAN". Adversarial Training can prompt to correctly classify between generated image and sample images.
+
+>> 결론: 생성자가 생성한 토큰을 판별자가 판단하도록 하여서 두 네트워크를 적대적으로 훈련시켰을 때, 작은 크기의 모델이라도 좋은 성능을 보일 수 있었다.
