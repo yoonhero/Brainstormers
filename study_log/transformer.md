@@ -142,3 +142,37 @@ ELECTRA에서는 BERT와 유사한 크기의 트랜스포머 2개를 사용하�
 Maximum likelihood aims to accomplish to lower negative log loss by backpropagation. We can use maximum likelihood objective function when we try to maximize the likelihood generating data such as image classifcation. But adversarial traning aims to lower the combination loss and the adversarial loss. This training method was introduced in the well-known paper "GAN". Adversarial Training can prompt to correctly classify between generated image and sample images.
 
 >> 결론: 생성자가 생성한 토큰을 판별자가 판단하도록 하여서 두 네트워크를 적대적으로 훈련시켰을 때, 작은 크기의 모델이라도 좋은 성능을 보일 수 있었다.
+
+
+## Reformer
+
+일반적인 트랜스포머 모델의 문제는 Self-Attention과 FF 레이어를 통과할 때 발생한다. Self-Attention 연산에서는 Key와 Query의 행렬곱 연산을 수행하는데 이때 Key-Query는 데이터 열와 유사하기에 입력 토큰의 개수가 많아질수록 연산량이 기하급수적으로 늘어난다. 또한 FF 레이어를 사용하면서 차지하는 메모리의 용량도 무시할 수 없다. 역전파 과정에서도 이러한 출력값을 저장하고 있어야 학습이 진행되기에 학습 시의 메모리 용량도 무시할 수 없다.
+
+
+**Contribution**
+
+- LSH을 사용하여 Self-Attention의 문제점을 해결한다.
+- Chunking을 활용하여 FF의 문제점을 해결한다.
+- Reversible Layer을 활용하여 Residual Connection에서의 연산량을 줄인다.
+
+
+### Locality-Sensitive Hashing
+
+Hashing은 임의의 데이터를 길이가 해시 값으로 치환하는 것을 의미한다. 보통 Hash 값은 연결된 데이터와 전혀 관련이 없을 때가 많다. 그래서 상대적 위치를 확인하거나 다른 데이터를 찾는  데이터에 대한 비교 분석을 할 때 실제 데이터값을 비교하는 연산이 필요하다. 이때 가까운 데이터끼리는 가까운 Hash 값을 갖도록 구성할 수 있따면 비교하는 연산을 Hash 값에 대한 연산으로 근사하여 연산량을 줄일 수 있다. 이러한 Hashing 방법을 Locality-Sensitive Hashing이라고 한다.
+
+1. 전체 데이터 포인트들의 벡터를 단위 구면에 사상한다. 이렇게 되면 전체 데이터 포인터를 각도만을 사용하여 기술할 수 있다.
+2. 비슷한 데이터들은 같은 사분면에 있어서 사분면의 번호를 Hash 값으로 사용한다면 비슷한 데이터를 가깝게 구성할 수 있다.
+3. 이 구면을 필요한 만큼 임의로 회전시키고 데이터가 가까우면 전체 Hash 값을 공유할 가능성이 높아진다.
+
+### Reversible Network
+
+ResNet에서 나오는 Residual Connection Calculation에서 각 연산 과정을 저장할 필요없이 그냥 역산을 통해서 입력값을 알아낼 수 있다는 것을 활용하여 메모리 사용량을 줄일 수 있었따.
+
+### LSH Attention
+
+본 논문에서는 Query와 Key 값이 같다는 가설을 세우고 진행한다.
+
+1. 일렬로 된 벡터 형태의 데이터 포인트에 LSH를 적용하고 같은 Hash 값을 가진 데이터 포인트끼리 버킷으로 묶는다.
+2. 각 버킷에는 높은 확률로 데이터 포인트들이 불균형하게 배당될 것이다. 이 데이터 포인트를 고정된 크기의 구역으로 분절한다.
+3. Attention Weigth를 계산한다.
+    - 두 데이터 포인트가 같은 버킷에 있거나 같은 구역에 있거나 Attention의 도착점 데이터 포인트는 시작 데이터 포인트가 있는 구역 바로 앞 구역에 있어야 한다.
